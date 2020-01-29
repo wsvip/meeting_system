@@ -1,35 +1,26 @@
 package com.ws;
 
-import com.ibeetl.starter.BeetlTemplateCustomize;
 import com.ws.common.utils.ShiroUtil;
-import org.beetl.core.GroupTemplate;
-import org.beetl.core.misc.BeetlUtil;
-import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.core.resource.WebAppResourceLoader;
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
-import org.beetl.sql.core.ClasspathLoader;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 @SpringBootApplication
 @MapperScan("com.ws.mapper")
-public class SpringbootdemoApplication  {
+public class MeetingSystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootdemoApplication.class, args);
+        SpringApplication.run(MeetingSystemApplication.class, args);
     }
 
   /*  @Override

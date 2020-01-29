@@ -15,7 +15,7 @@ import java.net.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SpringbootdemoApplicationTests {
+public class MeetingSystemApplicationTests {
     @Autowired
     private UserMapper userMapper;
 
