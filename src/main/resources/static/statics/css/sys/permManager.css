@@ -1,0 +1,18 @@
+.selectPermBtn{
+    float: right;
+    position: absolute;
+    width: 100px;
+    top: 0px;
+    right: 15px;
+}
+
+.selectPermArea{
+   /* background-color: #D0D0D0 !important;*/
+}
+.layui-tree-entry{
+    height: auto;
+}
+.assPermTree{
+    padding-top: 20px;
+    height: 400px;
+}

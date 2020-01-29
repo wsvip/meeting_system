@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%include("../../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div id="userTransfer"></div>
+    </div>
+    <div class="row">
+        <div style="text-align: center">
+            <a href="javascript:void(0)" class="layui-btn layui-btn-normal" style="width: 100px" id="saveAssUser">保存</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    getAssUserData();
+    getAssedUserData();
+    var assUserData;
+    var assedUserData;
+    /**
+     * 获取左边栏数据
+     */
+    function getAssUserData(){
+        $.ajax({
+            url:'/v1/api/sys/role/getAssUserData',
+            data:{roleId:'${roleId}'},
+            dataType:'json',
+            type:'post',
+            success:function (data) {
+                assUserData=data;
+            }
+        });
+    }
+    function getAssedUserData(){
+        $.ajax({
+            url:'/v1/api/sys/role/getAssedUserData',
+            data:{roleId:'${roleId}'},
+            dataType:'json',
+            type:'post',
+            success:function (data) {
+                assedUserData=data;
+            }
+        });
+    }
+    $(function () {
+
+        layui.use(['table','transfers'],function () {
+            var transfer = layui.transfers,$ = layui.$;
+            //数据源
+            //var data1 = [{'id':'10001','name':'杜甫','sex':'男'},{'id':'10002','name':'李白','sex':'男'},{'id':'10003','name':'王勃','sex':'男'},{'id':'10004','name':'李清照','sex':'男'}];
+            //var data2 = [{'id':'10005','name':'白居易','sex':'男'}];
+            //表格列
+            var cols = [
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'username', title: '用户名', sort: true},
+                {field: 'nickname', title: '姓名'},
+                {field: 'disabled', title: '禁用状态', width: 80,templet:function (data) {
+                    if (data.disabled===true){
+                        return '<span class="layui-badge layui-bg-red">是</span>'
+                    }else{
+                        return '<span class="layui-badge layui-bg-blue">否</span>'
+                    }
+                }}
+                ];
+            //表格配置文件
+            var tabConfig = {'page':true,'limits':[10,50,100],'height':475};
+
+            var tb1 = transfer.render({
+                elem: "#userTransfer", //指定元素
+                cols: cols, //表格列  支持layui数据表格所有配置
+                data: [assUserData,assedUserData], //[左表数据,右表数据[非必填]]
+                tabConfig: tabConfig //表格配置项 支持layui数据表格所有配置
+            })
+
+
+            $("#saveAssUser").on('click',function () {
+                var ids = transfer.get(tb1,'right','id');
+                if (ids.length==0){
+                    layer.msg("把需要分配的用户移到右侧")
+                }else{
+                    $.ajax({
+                        url:'/v1/api/sys/role/saveAssUser',
+                        data:{ids:ids,roleId:'${roleId}'},
+                        dataType:'json',
+                        type:'post',
+                        success:function (data) {
+                            layer.msg(data.msg);
+                        }
+                    });
+                }
+            });
+
+
+        })
+
+    });
+
+
+</script>

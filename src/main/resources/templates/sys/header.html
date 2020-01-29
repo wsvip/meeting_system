@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="sys_header col-lg-12">
+        <div class="col-lg-1 col-lg-offset-11">
+            <i class="icon_zhanghao iconfont  icon-icon_zhanghao "></i>
+            <span class="username">
+                ${shiro.getPrincipalProperty('nickname')}
+            </span>
+
+            <i class="icon_tuichu iconfont icon-tuichu"></i>
+            <a class="tuichu " href="javascript:void (0)" onclick="logout()">退出</a>
+        </div>
+    </div>
+</div>
+<script>
+    function logout() {
+        $.ajax({
+            url:'/login/logout',
+            type:'post',
+            success:function (data) {
+                location.href='/login/index';
+            }
+        })
+
+    }
+</script>

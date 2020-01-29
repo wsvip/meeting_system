@@ -1,0 +1,14 @@
+body{
+    width: 100%;
+    height: 100%;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+}
+.clearBootstrapCol{
+    padding: 0;
+    margin: 0;
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%include("../../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10 assPermTree">
+            <!--<div id="assPermTree"></div>-->
+            <ul id="assPermTree" class="dtree" data-id="0"></ul>
+        </div>
+        <div class="col-xs-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4">
+            <a href="javascript:void (0)" class="layui-btn layui-btn-normal" id="saveAssPerm" style="width: 100%">保存</a>
+        </div>
+        <div class="col-xs-4"></div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var feedbackTreeData;
+
+    function feedbackTree() {
+        $.ajax({
+            url: '/v1/api/sys/role/feedbackTree',
+            data: {roleId: '${roleId}'},
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                var tempData = JSON.stringify(data).replace(/name/g, "title");
+                tempData=tempData.replace(/pid/g,"parentId");
+                feedbackTreeData=JSON.parse(tempData);
+            }
+        })
+    }
+
+    feedbackTree();
+    /*layui.use(['tree', 'util'], function () {
+        var tree = layui.tree;
+        tree.render({
+            elem: '#assPermTree'
+            , data: feedbackTreeData
+            , showCheckbox: true  //是否显示复选框
+            , id: 'permTree'
+        });
+
+        $("#saveAssPerm").on('click', function () {
+            var permData = tree.getChecked('permTree');
+            for (var i = 0; i < permData.length; i++) {
+                getIds(permData[i]);
+            }
+            ids=ids.substring(0,ids.lastIndexOf(','));
+            $.ajax({
+                url:'/v1/api/sys/role/saveAssPerm',
+                data:{ids:ids,roleId:'${roleId}'},
+                dataType: 'json',
+                type: 'post',
+                success:function (data) {
+                    layer.msg(data.msg);
+                    if (data.code==0){
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        //关闭layer弹窗之后重新加载layui表格
+                        parent.layer.close(index);
+                        parent.location.reload('roleLayerDataTable',{page:{curr:1}});
+                    }
+                }
+            })
+        })
+
+    });*/
+    layui.use(['dtree','layer','jquery'], function(){
+        var dtree = layui.dtree, layer = layui.layer, $ = layui.jquery;
+
+        // 初始化树
+        var feddbackTree = dtree.render({
+            elem: "#assPermTree",
+            checkbar:true,
+            checkbarType:"no-all",
+            data: feedbackTreeData, // 使用data加载
+            //url: "../json/case/demoJson.json" // 使用url加载（可与data加载同时存在）
+        });
+
+        // 绑定节点点击
+        dtree.on("node('assPermTree')" ,function(obj){
+            layer.msg(JSON.stringify(obj.param));
+        });
+        //保存勾选的权限
+        $("#saveAssPerm").on('click', function () {
+            var permData = feddbackTree.getCheckbarNodesParam('assPermTree');
+            layer.msg(JSON.stringify(permData));
+            console.log(permData);
+            getIds(permData);
+            $.ajax({
+                url:'/v1/api/sys/role/saveAssPerm',
+                data:{ids:ids,roleId:'${roleId}'},
+                dataType: 'json',
+                type: 'post',
+                traditional:true,
+                success:function (data) {
+                    layer.msg(data.msg);
+                    if (data.code==0){
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        //关闭layer弹窗之后重新加载layui表格
+                        parent.layer.close(index);
+                        parent.location.reload('roleLayerDataTable',{page:{curr:1}});
+                    }
+                }
+            });
+        })
+    });
+    /**
+     * 递归获取id
+     */
+    var ids=[];
+
+    function getIds(obj) {
+        //获取子集
+        for (var i = 0; i < obj.length; i++) {
+            //ids+=obj[i].nodeId+',';
+            ids.push(obj[i].nodeId);
+        }
+    }
+
+</script>

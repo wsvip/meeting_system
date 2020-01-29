@@ -1,0 +1,58 @@
+<%layout("index.html"){%>
+<div class="row">
+    <div class="col-lg-1 menuBody">
+        <div class="row _menu" style="border-bottom: 1px solid #0077da;">
+            <div class="col-lg-12 menu">
+                <a href="/v1/api/sys/user/index">
+                    <i class="icon_yonghuguanli iconfont icon-icon_zhanghao"></i>
+                    <p class="left_menu_font">用户管理</p>
+                </a>
+            </div>
+        </div>
+        <div class="row _menu" style="border-bottom: 1px solid #0077da;">
+            <div class="col-lg-12 menu">
+                <a href="/v1/api/sys/role/index">
+                    <i class="icon_yonghuguanli iconfont icon-zhanghaoquanxianguanli"></i>
+                    <p>角色管理</p>
+                </a>
+            </div>
+        </div>
+        <div class="row _menu" style="border-bottom: 1px solid #0077da;">
+            <div class="col-lg-12 menu">
+                <a href="/v1/api/sys/perm/index">
+                    <i class="icon_yonghuguanli iconfont icon-quanxianguanli"></i>
+                    <p>权限管理</p>
+                </a>
+            </div>
+        </div>
+        <div class="row _menu" style="border-bottom: 1px solid #0077da;">
+            <div class="col-lg-12 menu">
+                <a href="/v1/api/sys/log/index">
+                    <i class="icon_yonghuguanli iconfont icon-rizhi"></i>
+                    <p>日志管理</p>
+                </a>
+            </div>
+        </div>
+        <div class="row _menu">
+            <div class="col-lg-12 menu">
+                <a href="/v1/api/sys/status/index">
+                    <i class="icon_yonghuguanli iconfont icon-xingneng"></i>
+                    <p>性能监控</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    ${layoutContent}
+</div>
+<script>
+    //获取屏幕高度
+    var avaliHeight = $(document).height();
+    //获取头部元素高度
+    var headerHeight = $(".sys_header").innerHeight();
+    var _menu = $("._menu");
+    //设置各个菜单模块高度
+    _menu.height((avaliHeight - headerHeight) / 5 - 0.8);
+
+    $(".menu").height((_menu.innerHeight()) / 2);
+</script>
+<%}%>

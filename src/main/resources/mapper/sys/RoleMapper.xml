@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.mapper.RoleMapper">
+    <sql id="baseColumn">
+       id,rolename,role,description,disabled
+    </sql>
+    <select id="roleListDataByPage" resultType="com.ws.bean.Sys_Role">
+        select
+        <include refid="baseColumn"/>
+        from sys_role
+        <where>
+            <if test="roleCondition!=null">
+                rolename like '%${roleCondition}%'
+            </if>
+        </where>
+    </select>
+
+    <delete id="delRoleAndUserRole" parameterType="string">
+        delete from sys_role where id =#{roleId};
+        delete from sys_user_role where role_id = #{roleId};
+    </delete>
+
+    <insert id="saveAssUser">
+        insert into sys_user_role(user_id,role_id) values
+        <foreach collection="ids" item="userId" separator=",">
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
+
+    <delete id="delAssUserByRoleId" parameterType="string">
+        delete from sys_user_role where role_id =#{roleId}
+    </delete>
+
+    <select id="getPermByRoleId" parameterType="string" resultType="com.ws.bean.Sys_Permission">
+        select
+        id,name,permission,pid,is_has_children,resource_type,disabled,url
+        from
+        sys_permission
+        where id
+        in
+        (select per_id from sys_role_per where role_id=#{roleId})
+    </select>
+    <select id="findRolesByUserId" parameterType="string" resultType="com.ws.bean.Sys_Role">
+        SELECT
+            t1.id,
+            t1.description,
+            t1.disabled,
+            t1.role,
+            t1.rolename
+        FROM
+            sys_role t1
+            INNER JOIN sys_user_role t2 ON t1.id = t2.role_id
+            AND t1.disabled=0 and  t2.user_id = #{userId}
+    </select>
+
+    <insert id="saveAssPerm">
+        insert into sys_role_per(per_id,role_id) values
+        <foreach collection="idList" item="perId" separator=",">
+            (#{perId},#{roleId})
+        </foreach>
+    </insert>
+    <delete id="deleteAssPerm" parameterType="string">
+        delete from sys_role_per where role_id =#{roleId}
+    </delete>
+</mapper>

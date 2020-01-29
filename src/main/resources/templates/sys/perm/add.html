@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%include("../../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container">
+    <div class="row" >
+        <div class="formBody">
+            <form class="form-inline layui-form" action="#" type="post" id="permData">
+                <div class="col-xs-12 form-group">
+                    <label for="pid" class="col-xs-2 control-label">上级菜单</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" id="pid" disabled lay-verify="required" placeholder="不选择则设置为顶级菜单">
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectPerm()">选择</button>
+                        <input type="hidden" name="pid">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="name" class="col-xs-2 control-label">名称</label>
+                    <div class="col-xs-10">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="权限名称" lay-verify="required">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="permission" class="col-xs-2 control-label">权限标识</label>
+                    <div class="col-xs-10">
+                        <input type="text" id="permission" name="permission" class="form-control" placeholder="权限标识" lay-verify="required">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="icon" class="col-xs-2 control-label">图标</label>
+                    <div class="col-xs-10">
+                        <input type="text" id="icon" name="icon" class="form-control" placeholder="icon-font图标" lay-verify="required">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="url" class="col-xs-2 control-label">访问路径</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" id="url" name="url" placeholder="访问路径" lay-verify="required">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="resourceType" class="col-xs-2 control-label">类型</label>
+                    <div class="col-xs-10 " style="text-align: left">
+                        <select id="resourceType" name="resourceType" lay-verify="required" >
+                            <option value=""></option>
+                            <option value="-1">目录</option>
+                            <option value="1">菜单</option>
+                            <option value="0">按钮</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="disabled" class="col-xs-2 control-label">是否禁用</label>
+                    <div class="col-xs-10" style="text-align: left">
+                        <input type="checkbox" id="disabled" name="disabled" value="1" title="禁用">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="formBar">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <a href="javascript:void(0)" class="btn btn-primary submitBtn" lay-submit onclick="submitPermDataForm()">提交</a>
+            </div>
+            <!--<div class="col-xs-2">
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="cancelForm()">取消</a>
+            </div>-->
+            <div class="col-xs-4"></div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script>
+    var treeData;
+
+    $(function () {
+        $.ajax({
+            url:'/v1/api/sys/perm/tree',
+            type:'post',
+            success:function (data) {
+                var parse = JSON.parse(JSON.stringify(data).replace(/name/g, "title"));
+                treeData=parse;
+            }
+        })
+    })
+
+</script>
+</html>

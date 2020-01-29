@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WS</title>
+    <!--引入css和js文件-->
+    <%include("../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container-fluid">
+    <!--插入头部文件-->
+    <%include("header.html"){}%>
+    <div class="row clearfix clearBootstrapCol">
+        ${layoutContent}
+
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var cip=window.location.host;
+    var websocketAddress="ws://"+cip+"/websocket/${servlet.session.id}";
+    var socket;
+    if (typeof (WebSocket) == 'undefined') {
+        console.log("你的浏览器不支持websocket");
+    } else {
+        console.log("你的浏览器支持websocket");
+
+        socket = new WebSocket(websocketAddress);
+
+        socket.onopen = function () {
+            console.log("socket 已经打开");
+
+        }
+        socket.onmessage = function (wsData) {
+            var supplanat= JSON.parse(wsData.data);
+            if (supplanat.code==302){
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.msg(supplanat.msg, {
+                        icon: 2,
+                        time: 5000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function () {
+                        window.location.href = "/login/index";
+                    });
+                });
+            }
+
+        }
+
+
+
+        socket.onclose = function () {
+            console.log("socket 已经关闭");
+        }
+        socket.onerror = function () {
+            console.log("socket 发生了错误");
+        }
+
+    }
+
+</script>

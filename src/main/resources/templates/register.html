@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registration</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="/statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/statics/font-awesome/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="/css/form-elements.css">-->
+    <link rel="stylesheet" href="/statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/statics/css/bootstrapValidator.min.css">
+    <link rel="stylesheet" href="/statics/plugs/layui/css/layui.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="/statics/ico/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/statics/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/statics/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/statics/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/statics/ico/apple-touch-icon-57-precomposed.png">
+
+</head>
+
+<body>
+
+<!-- Top menu -->
+<nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="register.html"></a>
+        </div>
+    </div>
+</nav>
+<!-- Top content -->
+<div class="top-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <form role="form" action="/register/doRegister" id="registerForm" class="form-horizontal" method="post">
+                    <input type="hidden" name="id">
+                    <div class="form-top" style="text-align: center;margin-bottom: 20px">
+                        <div class="form-top-left">
+                            <h3>注册账号</h3>
+                        </div>
+                        <div class="form-top-right" style="font-size: 15px;font-family: 微软雅黑">
+                            <!--<i class="fa fa-user"></i>-->
+                            <span>如果你已拥有账号，请</span><a href="hello.html" style="color: #ffffff;">登录</a><span>。</span>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="form-group">
+                            <input type="text" name="username" placeholder="用户名"  id="username"      class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" placeholder="密码" id="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="confirmPassword" placeholder="确认密码" id="confirmPassword" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="nickname" placeholder="昵称" id="nickname" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="邮箱" id="email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="tellphone" placeholder="手机号码" id="tellphone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="address" placeholder="联系地址" id="address" class="form-control">
+                        </div>
+                        <button type="submit"  class="btn btn-success btn-lg btn-block">提交</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Javascript -->
+<script src="/statics/js/jquery-1.11.1.min.js"></script>
+<script src="/statics/js/bootstrap.min.js"></script>
+<script src="/statics/js/jquery.backstretch.min.js"></script>
+<script src="/statics/js/retina-1.1.0.min.js"></script>
+<script src="/statics/js/scripts.js"></script>
+<script src="/statics/js/bootstrapValidator.min.js"></script>
+<script src="/statics/js/jquery.form.min.js"></script>
+<!--<script src="/statics/plugs/layer/layer.js"></script>-->
+<script src="/statics/plugs/layui/layui.js"></script>
+<!--[if lt IE 10]>
+<script src="/statics/js/placeholder.js"></script>
+<![endif]-->
+
+</body>
+
+</html>
+<script>
+    var layer;
+    layui.use('layer',function () {
+        layer=layui.layer;
+    })
+    $(function () {
+        /*表单验证*/
+        $("#registerForm").bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields:{
+                username: {
+                    //threshold: 6,//当用户名超过6位时才发送ajax请求进行用户名校验
+                    message: 'The username is not valid',
+                    validators: {
+                        notEmpty: {
+                            message: '用户名不能为空'
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 13,
+                            message: '用户名长度为2至12位'
+                        },
+                        regexp: {
+                                regexp: /^[a-zA-Z0-9]+$/,
+                            message: '用户名不能包含中文和特殊字符'
+                        },
+                        remote: {
+                            url: '/register/checkUsername',
+                            message: '该用户名已存在'
+                        },
+                        different: {
+                            field: 'password',
+                            message: '用户名不能与密码一致'
+                        }
+                    }
+                },
+                password:{
+                   message:'password not null',
+                    validators :{
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                        identical: {
+                            field: 'confirmPassword',
+                            message: '两次密码不一致'
+                        },
+                        different: {
+                            field: 'username',
+                            message: '密码不能与用户名相同'
+                        }
+                    },
+                },
+                confirmPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: '两次密码不一致'
+                        },
+                        identical: {
+                            field: 'password',
+                            message: '两次密码不一致'
+                        },
+                        different: {
+                            field: 'username',
+                            message: '两次密码不一致'
+                        }
+                    }
+                },
+                email: {
+                    //threshold: 6,//当邮箱超过6位时才发送ajax请求进行邮箱校验
+                    validators: {
+                        emailAddress: {
+                            message: '邮箱格式不正确'
+                        },
+                        remote: {
+                            url: '/register/checkEmail',
+                            message: '该邮箱已存在'
+                        },
+                    }
+                },
+                tellphone:{
+                    //threshold: 11,//当邮箱超过6位时才发送ajax请求进行邮箱校验
+                    validators:{
+                        notEmpty: {
+                            message: '手机号不能为空'
+                        },
+                        stringLength: {
+                            min: 11,
+                            max: 11,
+                            message: '手机号格式不正确'
+                        },
+                        regexp: {
+                            regexp: /^[0-9]+/,
+                            message: '手机号码格式不正确'
+                        },
+                        remote: {
+                            url: '/register/checkPhone',
+                            message: '该手机号码已存在'
+                        },
+                    },
+                },
+            },
+        });
+        /*表单验证结束位置*/
+        /*表单提交后接收后台返回的数据*/
+        $("#registerForm").ajaxForm(function (data) {
+            if(true==data){
+                layer.msg("注册成功",{icon:6});
+                window.location.href="/login/index";
+            }
+            else if(false == data){
+                layer.msg("注册失败",{icon:5});
+            }
+        })
+    });
+    /*提交表单*/
+    /*function subAddUserform() {
+        if (valid){
+            $.ajax({
+                url:'/doRegister',
+                data:$("#registerForm").serialize(),
+                type:'post',
+                dataType:'json',
+                success:function (data) {
+                    if (true==data){
+                        layer.msg("注册成功",{icon:6});
+                    }else{
+                        layer.msg("注册失败",{icon:5});
+                    }
+                }
+            });
+        }
+    }*/
+</script>

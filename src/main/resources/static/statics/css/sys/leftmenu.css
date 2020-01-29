@@ -1,0 +1,24 @@
+.menuBody{
+    background-color: black;
+    opacity: 0.5;
+}
+._menu{
+    position: relative;
+}
+.menu{
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    /*height: 200px;*/
+}
+.menu p{
+    color: #FFFFFF;
+}
+.menu p:hover {
+    color: #0077da;
+}
+.menu p:active{
+    color: red;
+}

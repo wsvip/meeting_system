@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registration</title>
+    <%include("layout/assets.html"){}%>
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="/statics/ico/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/statics/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/statics/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/statics/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/statics/ico/apple-touch-icon-57-precomposed.png">
+
+</head>
+
+<body>
+
+<!-- Top menu -->
+<nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="register.html"></a>
+        </div>
+    </div>
+</nav>
+<!-- Top content -->
+<div class="top-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <form role="form" action="#" id="loginForm" class="form-horizontal" method="post">
+                    <input type="hidden" name="id">
+                    <div class="form-top" style="text-align: center;margin-bottom: 20px">
+                        <div class="form-top-left">
+                            <h3>登录</h3>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="form-group">
+                            <input type="text" name="username" placeholder="用户名"  id="username"      class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" placeholder="密码" id="password" class="form-control">
+                        </div>
+                        <a href="javascript:void(0)" onclick="login()" class="btn btn-success btn-lg btn-block">提交</a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>
+<script>
+    /*提交注册表单*/
+    /* function register() {
+         $.ajax({
+             type: 'post',
+             dataType: 'json',
+             url: '/doRegister',
+             data: $("#registerForm").serialize(),
+             success: function (data) {
+                 console.log(data);
+             }
+         });
+     }*/
+
+    function login(){
+
+        $.ajax({
+           url:'/login/doLogin',
+           type:'post',
+           data:$("#loginForm").serialize(),
+           dataType:'json',
+            success:function (data) {
+                if (null!=data && data.code==0){
+                    layer.msg(data.msg);
+                    location.href="/v1/api/sys/user/index";
+                }else if (data.code==1){
+                    layer.msg(data.msg);
+                }
+            }
+
+        });
+    }
+
+    $(function () {
+        /*表单验证结束位置*/
+        /*表单提交后接收后台返回的数据*/
+        $("#registerForm").ajaxForm(function (data) {
+            console.log(data);
+            if(true==data){
+                layer.msg("注册成功",{icon:6});
+                //window.location.href="hello.html"
+            }
+            else if(false == data){
+                layer.msg("注册失败",{icon:5});
+            }
+        })
+    })
+</script>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.mapper.UserMapper">
+    <sql id="baseColumn">
+       id,username,password,nickname,address,disabled,email,login_at,login_count,login_ip,tellphone
+    </sql>
+    <select id="userListByPage" resultType="com.ws.bean.Sys_User">
+        select
+        <include refid="baseColumn"/>
+        from sys_user
+        <where>
+            <if test="condition!=null">
+                username like '%${condition}%' or nickname like '%${condition}%'
+            </if>
+        </where>
+    </select>
+
+    <delete id="delUserAndUserRole" parameterType="string">
+        delete from sys_user where id=#{userId};
+        delete from sys_user_role where user_id =#{userId};
+    </delete>
+
+    <select id="getAssUserData" resultType="com.ws.bean.Sys_User" parameterType="string">
+        select id,username,nickname,disabled from sys_user where id not in (select user_id from sys_user_role where role_id =#{roleId})
+    </select>
+
+    <select id="getAssedUserData" parameterType="string" resultType="com.ws.bean.Sys_User">
+        select id,username,nickname,disabled from sys_user where id in (select user_id from sys_user_role where role_id =#{roleId})
+    </select>
+</mapper>

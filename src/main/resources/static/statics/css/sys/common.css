@@ -1,0 +1,23 @@
+.listDataBox{
+    padding: 0 20px 0 20px;
+}
+.topBar{
+    padding: 50px 20px 20px 20px;
+}
+.addBtn{
+    width: 200px;
+}
+.formBody{
+    padding: 20px 0 20px 0;
+    text-align: right;
+}
+.formBody label{
+    line-height: 34px;
+}
+.formBar{
+    padding: 20px 0 0 0;
+    text-align: center;
+}
+.submitBtn{
+    width: 100px;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%include("../../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container">
+    <div class="row" >
+        <div class="formBody">
+            <form class="form-inline layui-form" action="#" type="post" id="roleData">
+                <div class="col-xs-12 form-group">
+                    <label for="rolename" class="col-xs-2 control-label">角色名称</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" id="rolename" name="rolename" placeholder="角色名称">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="role" class="col-xs-2 control-label">角色标识</label>
+                    <div class="col-xs-10">
+                        <input type="text" id="role" name="role" class="form-control" placeholder="角色标识">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="description" class="col-xs-2 control-label">角色说明</label>
+                    <div class="col-xs-10">
+                        <input type="text" id="description" name="description" class="form-control" placeholder="角色说明">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="disabled" class="col-xs-2 control-label">是否禁用</label>
+                    <div class="col-xs-10" style="text-align: left">
+                        <input type="checkbox" class="form-control" id="disabled" name="disabled" value="1" title="禁用">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="formBar">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <a href="javascript:void(0)" class="btn btn-primary submitBtn" onclick="submitRoleDataForm()">提交</a>
+            </div>
+            <!--<div class="col-xs-2">
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="cancelForm()">取消</a>
+            </div>-->
+            <div class="col-xs-4"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
