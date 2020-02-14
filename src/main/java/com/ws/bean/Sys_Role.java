@@ -25,12 +25,12 @@ public class Sys_Role implements Serializable {
     //@Column(nullable = true)
     private Boolean disabled=Boolean.FALSE;
     //@ManyToMany()
-    //@JoinTable(name = "SYS_USER_ROLE",joinColumns = {@JoinColumn(name="role_id")},inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    //@JoinTable(name = "SYS_USER_ROLE",joinColumns = {@JoinColumn(name="roleId")},inverseJoinColumns = {@JoinColumn(name = "userId")})
     @TableField(exist = false)
     private List<Sys_User> userList;
 
     //@ManyToMany()
-    //@JoinTable(name = "SYS_ROLE_PER",joinColumns = {@JoinColumn(name="role_id")},inverseJoinColumns = {@JoinColumn(name = "pre_id")})
+    //@JoinTable(name = "SYS_ROLE_PER",joinColumns = {@JoinColumn(name="roleId")},inverseJoinColumns = {@JoinColumn(name = "pre_id")})
     @TableField(exist = false)
     private List<Sys_Permission> permissions;
 

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ws.mapper.UserMapper">
+<mapper namespace="com.ws.mapper.RoomMapper">
     <sql id="baseColumn">
-       id,username,password,nickname,address,disabled,email,loginAt,loginCount,loginIp,tellphone
+        id,roomName,roomNo,createTime,status,capacity,principal,principalId,remark
     </sql>
-    <select id="userListByPage" resultType="com.ws.bean.Sys_User">
+    <select id="roomListByPage" resultType="com.ws.bean.Sys_room">
         select
         <include refid="baseColumn"/>
-        from sys_user
+        from sys_room
         <where>
-            <if test="condition!=null">
-                username like '%${condition}%' or nickname like '%${condition}%'
+            <if test="roomCondition!=null">
+                roomName like '%${roomCondition}%' or roomNo like '%${roomCondition}%' or principal like '%${roomCondition}%' or remark like '%${roomCondition}%'
             </if>
         </where>
     </select>

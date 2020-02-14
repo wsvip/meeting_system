@@ -17,28 +17,28 @@
 
     <delete id="delRoleAndUserRole" parameterType="string">
         delete from sys_role where id =#{roleId};
-        delete from sys_user_role where role_id = #{roleId};
+        delete from sys_user_role where roleId = #{roleId};
     </delete>
 
     <insert id="saveAssUser">
-        insert into sys_user_role(user_id,role_id) values
+        insert into sys_user_role(userId,roleId) values
         <foreach collection="ids" item="userId" separator=",">
             (#{userId},#{roleId})
         </foreach>
     </insert>
 
     <delete id="delAssUserByRoleId" parameterType="string">
-        delete from sys_user_role where role_id =#{roleId}
+        delete from sys_user_role where roleId =#{roleId}
     </delete>
 
     <select id="getPermByRoleId" parameterType="string" resultType="com.ws.bean.Sys_Permission">
         select
-        id,name,permission,pid,is_has_children,resource_type,disabled,url
+        id,name,permission,pid,isHasChildren,resourceType,disabled,url
         from
         sys_permission
         where id
         in
-        (select per_id from sys_role_per where role_id=#{roleId})
+        (select perId from sys_role_per where roleId=#{roleId})
     </select>
     <select id="findRolesByUserId" parameterType="string" resultType="com.ws.bean.Sys_Role">
         SELECT
@@ -49,17 +49,17 @@
             t1.rolename
         FROM
             sys_role t1
-            INNER JOIN sys_user_role t2 ON t1.id = t2.role_id
-            AND t1.disabled=0 and  t2.user_id = #{userId}
+            INNER JOIN sys_user_role t2 ON t1.id = t2.roleId
+            AND t1.disabled=0 and  t2.userId = #{userId}
     </select>
 
     <insert id="saveAssPerm">
-        insert into sys_role_per(per_id,role_id) values
+        insert into sys_role_per(perId,roleId) values
         <foreach collection="idList" item="perId" separator=",">
             (#{perId},#{roleId})
         </foreach>
     </insert>
     <delete id="deleteAssPerm" parameterType="string">
-        delete from sys_role_per where role_id =#{roleId}
+        delete from sys_role_per where roleId =#{roleId}
     </delete>
 </mapper>

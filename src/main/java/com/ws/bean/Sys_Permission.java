@@ -30,7 +30,7 @@ public class Sys_Permission implements Serializable {
     //@Column(nullable = false)
     private Boolean disabled = Boolean.FALSE;
     //@ManyToMany
-    //@JoinTable(name="SYS_ROLE_PER", joinColumns = {@JoinColumn(name = "per_id")},inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    //@JoinTable(name="SYS_ROLE_PER", joinColumns = {@JoinColumn(name = "perId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
 
     @TableField(exist = false)
     private List<Sys_Permission> children = new ArrayList<>();

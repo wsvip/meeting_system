@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%include("../../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container">
+    <div class="row" >
+        <div class="formBody">
+            <form class="form-inline" action="#" type="post" id="editApplyForm">
+                <input type="hidden" name="id" value="${applyData.id}">
+                <input type="hidden" name="roomId" value="${applyData.roomId}">
+                <input type="hidden" name="applicant" value="${applyData.applicant}">
+                <input type="hidden" name="applicantId" value="${applyData.applicantId}">
+                <input type="hidden" name="status" value="${applyData.status}">
+
+                <div class="col-xs-12 form-group">
+                    <label for="roomName" class="col-xs-2 control-label">会议室名称</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" id="roomName" name="roomName" readonly value="${applyData.roomName}" placeholder="会议室名称">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="roomNo" class="col-xs-2 control-label">会议室编号</label>
+                    <div class="col-xs-10">
+                        <input type="text" id="roomNo" name="roomNo" class="form-control" readonly value="${applyData.roomNo}" placeholder="会议室编号">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="startTime" class="col-xs-2 control-label">开始时间</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control"  id="startTime" name="startTime" readonly value="${applyData.startTime}"  placeholder="会议室开始使用的时间">
+                    </div>
+                </div>
+                <!--<div class="col-xs-12 form-group">
+                    <label for="endTime" class="col-xs-2 control-label">结束时间</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control"  id="endTime" name="endTime" readonly value="${applyData.endTime}" placeholder="会议室结束使用的时间">
+                    </div>
+                </div>-->
+                <div class="col-xs-12 form-group">
+                    <label for="approver" class="col-xs-2 control-label">审批人</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control"  id="approver" name="approverComfirm" readonly value="${applyData.approver}"   placeholder="请选择会议室审批人">
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectUser($('#approver'),$('input[name=approver]'),$('#approverId'))">选择</button>
+                        <input type="hidden" name="approver" value="${applyData.approver}">
+                        <input type="hidden" id="approverId" name="approverId" value="${applyData.approverId}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="formBar">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <a href="javascript:void(0)" class="btn btn-primary submitBtn" onclick="editApplyDo()">保存</a>
+            </div>
+            <!--<div class="col-xs-2">
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="cancelForm()">取消</a>
+            </div>-->
+            <div class="col-xs-4"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+        var applyData=$("#editApplyForm");
+        validetorApply(applyData);
+    })
+</script>

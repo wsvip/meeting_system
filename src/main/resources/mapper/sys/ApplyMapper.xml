@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.mapper.ApplyMapper">
+    <sql id="baseColumn">
+        id,roomId,roomName,roomNo,startTime,endTime,approver,approverId,applicant,applicantId,status
+    </sql>
+    <select id="applyListByPage" resultType="com.ws.bean.Sys_apply">
+        select
+        <include refid="baseColumn"/>
+        from sys_apply
+        <where>
+            <if test="applyCondition!=null">
+                roomName like '%${applyCondition}%' or roomNo like '%${applyCondition}%' or approver like '%${applyCondition}%' or applicant like '%${applyCondition}%' and
+            </if>
+            applicantId=#{userId}
+        </where>
+    </select>
+    <select id="pendingListByPage" resultType="com.ws.bean.Sys_apply">
+        select
+        <include refid="baseColumn"/>
+        from sys_apply
+        <where>
+            <if test="applyCondition!=null">
+                roomName like '%${applyCondition}%' or roomNo like '%${applyCondition}%' or approver like '%${applyCondition}%' or applicant like '%${applyCondition}%' and
+            </if>
+            approverId=#{userId}
+        </where>
+    </select>
+    <update id="updateRoom" parameterType="string" >
+        update sys_apply set
+        roomName=#{roomName},
+        roomNo=#{roomNo}
+        where
+        roomId=#{id};
+    </update>
+    <update id="updateApplyStatus">
+        update sys_apply set
+        status=#{status}
+        where
+        roomId=#{roomId};
+    </update>
+</mapper>

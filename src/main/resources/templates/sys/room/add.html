@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%include("../../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container">
+    <div class="row" >
+        <div class="formBody">
+            <form class="form-inline" action="#" type="post" id="roomData">
+                <div class="col-xs-12 form-group">
+                    <label for="roomName" class="col-xs-3 control-label">会议室名称</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control" id="roomName" name="roomName" placeholder="会议室名称">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="roomNo" class="col-xs-3 control-label">会议室编号</label>
+                    <div class="col-xs-9">
+                        <input type="text" id="roomNo" name="roomNo" class="form-control" placeholder="会议室编号">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="capacity" class="col-xs-3 control-label">可容纳人数</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control"  id="capacity" name="capacity" placeholder="可容纳人数">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="principal" class="col-xs-3 control-label">会议室负责人</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control" id="principal" name="principalComfirm" readonly   placeholder="请选择会议室负责人">
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectUser($('#principal'),$('input[name=principal]'),$('#principalId'))">选择</button>
+                        <input type="hidden" name="principal">
+                        <input type="hidden" id="principalId" name="principalId">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="remark" class="col-xs-3 control-label">备注</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control"  id="remark" name="remark" placeholder="备注">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="formBar">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <a href="javascript:void(0)" class="btn btn-primary submitBtn" onclick="submitRoomDataForm()">提交</a>
+            </div>
+            <!--<div class="col-xs-2">
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="cancelForm()">取消</a>
+            </div>-->
+            <div class="col-xs-4"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+        var roomData=$("#roomData");
+        validetorRoom(roomData);
+    })
+</script>

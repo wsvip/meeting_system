@@ -10,15 +10,15 @@
             t1.disabled,
             t1.NAME,
             t1.permission,
-            t1.resource_type,
+            t1.resourceType,
             t1.url,
             t1.pid,
-            t1.is_has_children,
+            t1.isHasChildren,
             t1.icon
         FROM
             sys_permission t1
-            INNER JOIN sys_role_per t2 ON t1.id = t2.per_id
+            INNER JOIN sys_role_per t2 ON t1.id = t2.perId
             AND t1.disabled = 0
-            AND t2.role_id = #{roleId}
+            AND t2.roleId = #{roleId}
     </select>
 </mapper>

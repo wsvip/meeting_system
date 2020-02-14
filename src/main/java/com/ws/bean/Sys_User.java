@@ -42,7 +42,7 @@ public class Sys_User implements Serializable {
     //@Column(nullable = true)
     public Boolean disabled=Boolean.FALSE;
     //@ManyToMany(fetch = FetchType.EAGER)
-    //@JoinTable(name = "SYS_USER_ROLE",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    //@JoinTable(name = "SYS_USER_ROLE",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     @TableField(exist = false)
     private List<Sys_Role> roles;
 

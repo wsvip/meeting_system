@@ -8,7 +8,7 @@ layui.use('table', function () {
     table.render({
         elem: '#userDataTable'
         , url: '/v1/api/sys/user/userListData'
-        , method:'post'
+        , method: 'post'
         , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
         , cols: [[
             {type: 'checkbox'}
@@ -25,7 +25,7 @@ layui.use('table', function () {
                     if (null == obj.loginAt) {
                         return '';
                     } else {
-                        return layui.util.toDateString((obj.loginAt)*1000, "yyyy-MM-dd HH:mm:ss");
+                        return layui.util.toDateString((obj.loginAt) * 1000, "yyyy-MM-dd HH:mm:ss");
                     }
                 }
             }
@@ -33,7 +33,7 @@ layui.use('table', function () {
         ]]
         , page: true
         , id: 'userLayerDataTable'
-        ,done:function (res,curr,count) {
+        , done: function (res, curr, count) {
             console.log(res);
             console.log(curr);
             console.log(count);
@@ -113,22 +113,27 @@ function addUser() {
 
 /*提交表单*/
 function submitUserDataForm() {
-    $.ajax({
-        url: '/v1/api/sys/user/addUserDo',
-        data: $("#userData").serialize(),
-        type: 'post',
-        dataType: 'json',
-        success: function (data) {
-            layer.msg(data.msg);
-            if (data.code == 0) {
-                //layer.close(layer.index);
-                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                //关闭layer弹窗之后重新加载layui表格
-                parent.layer.close(index);
-                parent.location.reload('userLayerDataTable', {page: {curr: 1}});
+    var userData = $("#userData");
+    userData.bootstrapValidator('validate');//提交验证
+    if (userData.data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
+        $.ajax({
+            url: '/v1/api/sys/user/addUserDo',
+            data: $("#userData").serialize(),
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                layer.msg(data.msg);
+                if (data.code == 0) {
+                    //layer.close(layer.index);
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    //关闭layer弹窗之后重新加载layui表格
+                    parent.layer.close(index);
+                    parent.location.reload('userLayerDataTable', {page: {curr: 1}});
+                }
             }
-        }
-    });
+        });
+    }
+
 }
 
 /**
@@ -151,7 +156,7 @@ function editUserDo() {
 }
 
 /*表单验证*/
-function validetor(obj) {
+function validetorUser(obj) {
     obj.bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
@@ -227,6 +232,13 @@ function validetor(obj) {
                         url: '/register/checkEmail',
                         message: '该邮箱已存在'
                     },
+                }
+            },
+            nickname: {
+                validators: {
+                    notEmpty: {
+                        message: '姓名不能为空'
+                    }
                 }
             },
             tellphone: {

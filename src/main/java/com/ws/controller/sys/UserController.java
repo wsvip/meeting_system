@@ -46,6 +46,8 @@ public class UserController {
     public Object addUser(){
         return "sys/user/add";
     }
+
+
     /**
      * @Author:  WS-
      * @param username
