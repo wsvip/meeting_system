@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/statics/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/statics/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/statics/ico/apple-touch-icon-57-precomposed.png">
-
+    <script src="/statics/js/scripts.js"></script>
 </head>
 
 <body>
@@ -88,10 +88,14 @@
            data:$("#loginForm").serialize(),
            dataType:'json',
             success:function (data) {
-                if (null!=data && data.code==0){
+                if (null!=data && data.code===0){
                     layer.msg(data.msg);
-                    location.href="/v1/api/sys/user/index";
-                }else if (data.code==1){
+                    var menus=data.data;
+                    var id=data.data[0].permission.substr(data.data[0].permission.lastIndexOf('.')+1);
+                    localStorage.setItem("menus",JSON.stringify(menus));
+                    localStorage.setItem("check",id);
+                    location.href=data.data[0].url;
+                }else if (data.code===1){
                     layer.msg(data.msg);
                 }
             }
@@ -104,11 +108,11 @@
         /*表单提交后接收后台返回的数据*/
         $("#registerForm").ajaxForm(function (data) {
             console.log(data);
-            if(true==data){
+            if(data){
                 layer.msg("注册成功",{icon:6});
                 //window.location.href="hello.html"
             }
-            else if(false == data){
+            else if(!data){
                 layer.msg("注册失败",{icon:5});
             }
         })

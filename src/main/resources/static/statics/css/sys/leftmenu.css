@@ -1,6 +1,7 @@
 .menuBody{
     background-color: black;
-    opacity: 0.5;
+    opacity: 0.8;
+    padding: 0;
 }
 ._menu{
     position: relative;
@@ -21,4 +22,15 @@
 }
 .menu p:active{
     color: red;
+}
+
+.menuFont{
+    color: #ffffff;
+}
+.leftMenu{
+    width: 160px !important;
+    opacity: 0.8;
+}
+.leftMenu li a:focus{
+    background-color: #5FB878 !important;
 }

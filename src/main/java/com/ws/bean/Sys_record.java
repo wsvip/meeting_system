@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
 
-public class Sys_record implements Serializable {
+public class Sys_record  implements Serializable {
     private static final long serialVersionUID=1l;
 
     @TableId(type = IdType.UUID)
@@ -15,11 +15,15 @@ public class Sys_record implements Serializable {
 
     private String host;
 
+    private String hostId;
+
     private String startTime;
 
     private String endTime;
 
     private String roomId;
+
+    private String roomName;
 
     private String recorder;
 
@@ -87,5 +91,21 @@ public class Sys_record implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public String getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
     }
 }

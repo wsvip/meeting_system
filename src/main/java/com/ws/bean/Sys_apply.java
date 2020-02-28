@@ -20,7 +20,7 @@ public class Sys_apply implements Serializable {
     private String startTime;
 
     private String endTime;
-
+    private String appTime;
     private String approver;
 
     private String approverId;
@@ -115,5 +115,13 @@ public class Sys_apply implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getAppTime() {
+        return appTime;
+    }
+
+    public void setAppTime(String appTime) {
+        this.appTime = appTime;
     }
 }

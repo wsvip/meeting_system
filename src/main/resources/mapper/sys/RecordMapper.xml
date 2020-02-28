@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.mapper.RecordMapper">
+    <sql id="baseColumn">
+        id,recordName,host,startTime,endTime,roomId,roomName,recorder,content
+    </sql>
+    <select id="recordListByPage" resultType="com.ws.bean.Sys_record">
+        select
+        <include refid="baseColumn"/>
+        from sys_record
+        <where>
+            <if test="recordCondition!=null">
+                roomName like '%${recordCondition}%' or host like '%${recordCondition}%' or recordName like '%${recordCondition}%'  and
+            </if>
+            recorder=#{userId}
+        </where>
+    </select>
+    <select id="attendNamesListByRecordId" resultType="java.util.Map">
+        SELECT
+            t2.nickname,t1.userId
+        FROM
+            sys_record_attend t1
+                LEFT JOIN sys_user t2 ON t1.userId = t2.id
+        WHERE
+            t1.recordId = #{recordId}
+    </select>
+    <select id="commissionerNamesListByRecordId" resultType="java.util.Map">
+        SELECT
+            t2.nickname,t1.userId
+        FROM
+            sys_record_commissioner t1
+                LEFT JOIN sys_user t2 ON t1.userId = t2.id
+        WHERE
+            t1.recordId = #{recordId}
+    </select>
+</mapper>

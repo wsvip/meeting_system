@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%include("../../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container">
+    <div class="row" >
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+            </colgroup>
+            <tbody>
+            <tr>
+                <td>会议名称</td>
+                <td>${recordData.recordName}</td>
+            </tr>
+            <tr>
+                <td>会议室</td>
+                <td>${recordData.roomName}</td>
+            </tr>
+            <tr>
+                <td>主持人</td>
+                <td>${recordData.host}</td>
+            </tr>
+            <tr>
+                <td>会务专员</td>
+                <td>${commissionerNames.names}</td>
+            </tr>
+            <tr>
+                <td>参会人员</td>
+                <td>${attendNames.names}</td>
+            </tr>
+            <tr>
+                <td>会议时长</td>
+                <td>${recordData.startTime}</td>
+            </tr>
+            <tr>
+                <td>会议内容</td>
+                <td>
+                    <textarea rows="15" cols="80" readonly>
+                        ${recordData.content}
+                    </textarea>
+                    </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

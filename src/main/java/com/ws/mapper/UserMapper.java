@@ -2,6 +2,7 @@ package com.ws.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.bean.Sys_Permission;
 import com.ws.bean.Sys_User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,8 @@ public interface UserMapper extends BaseMapper<Sys_User> {
     List<Sys_User> getAssUserData(String roleId);
 
     List<Sys_User> getAssedUserData(String roleId);
+
+    List<Sys_Permission> getUserPermissionMenus(String userId);
 
     //void selectOne(QueryWrapper<Object> );
 

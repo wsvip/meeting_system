@@ -2,6 +2,7 @@ package com.ws.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ws.bean.Sys_Permission;
 import com.ws.bean.Sys_Role;
 import com.ws.bean.Sys_User;
 
@@ -89,5 +90,10 @@ public interface UserService extends IService<Sys_User> {
      */
     List<Sys_User> getAssedUserData(String roleId);
 
-
+    /**
+     * 根据用户id获取用户权限菜单，用于登录成功后生成菜单
+     * @param userId 用户id
+     * @return List<Sys_Permission>
+     */
+    List<Sys_Permission> getUserPermissionMenus(String userId);
 }

@@ -3,6 +3,7 @@ package com.ws.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ws.bean.Sys_Permission;
 import com.ws.bean.Sys_User;
 import com.ws.mapper.UserMapper;
 import com.ws.service.UserService;
@@ -12,14 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper,Sys_User> implements UserService  {
+public class UserServiceImpl extends ServiceImpl<UserMapper, Sys_User> implements UserService {
     @Autowired
     private UserMapper userMapper;
+
     @Override
     public Sys_User findByUsername(String username) {
         //return userMapper.findByUsername(username);
         QueryWrapper<Sys_User> wrapper = new QueryWrapper<>();
-        wrapper.eq("username",username);
+        wrapper.eq("username", username);
         Sys_User user = userMapper.selectOne(wrapper);
         return user;
     }
@@ -33,9 +35,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,Sys_User> implements
     @Override
     public boolean checkUsername(String username) {
         QueryWrapper<Sys_User> wrapper = new QueryWrapper<>();
-        wrapper.eq("username",username);
+        wrapper.eq("username", username);
         Sys_User user = userMapper.selectOne(wrapper);
-        if(null==user){
+        if (null == user) {
             return true;
         }
         return false;
@@ -46,8 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,Sys_User> implements
         QueryWrapper<Sys_User> wrapper = new QueryWrapper<>();
         wrapper.eq("email", email);
         Sys_User user = userMapper.selectOne(wrapper);
-        if(null==user){
-          return true;
+        if (null == user) {
+            return true;
         }
         return false;
     }
@@ -57,7 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,Sys_User> implements
         QueryWrapper<Sys_User> wrapper = new QueryWrapper<>();
         wrapper.eq("tellphone", tellphone);
         Sys_User user = userMapper.selectOne(wrapper);
-        if(null==user){
+        if (null == user) {
             return true;
         }
         return false;
@@ -71,8 +73,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,Sys_User> implements
     }
 
     @Override
-    public List<Sys_User> userListByPage(Page<Sys_User> iPage,String condition) {
-        List<Sys_User>userList=userMapper.userListByPage(iPage,condition);
+    public List<Sys_User> userListByPage(Page<Sys_User> iPage, String condition) {
+        List<Sys_User> userList = userMapper.userListByPage(iPage, condition);
         return userList;
     }
 
@@ -96,13 +98,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,Sys_User> implements
 
     @Override
     public List<Sys_User> getAssUserData(String roleId) {
-        List<Sys_User>  userList=userMapper.getAssUserData(roleId);
+        List<Sys_User> userList = userMapper.getAssUserData(roleId);
         return userList;
     }
 
     @Override
     public List<Sys_User> getAssedUserData(String roleId) {
-        List<Sys_User> userList=userMapper.getAssedUserData(roleId);
+        List<Sys_User> userList = userMapper.getAssedUserData(roleId);
         return userList;
+    }
+
+    @Override
+    public List<Sys_Permission> getUserPermissionMenus(String userId) {
+        List<Sys_Permission> menus = userMapper.getUserPermissionMenus(userId);
+        if (null != menus && menus.size() > 0) {
+            return  menus;
+        }
+        return null;
     }
 }

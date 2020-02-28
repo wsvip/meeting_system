@@ -1,13 +1,20 @@
 <div class="row">
-    <div class="sys_header col-lg-12">
-        <div class="col-lg-1 col-lg-offset-11">
-            <i class="icon_zhanghao iconfont  icon-icon_zhanghao "></i>
+    <div class="sys_header col-lg-12 layui-bg-cyan">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2">
+            <h3 style="line-height: 50px">企业会议管理系统</h3>
+        </div>
+        <div class="col-lg-8"></div>
+        <div class="col-lg-1">
+            <!--<i class="icon_zhanghao iconfont  icon-icon_zhanghao "></i>-->
             <span class="username">
+                <i class="layui-icon  layui-icon-username"></i>
                 ${shiro.getPrincipalProperty('nickname')}
             </span>
-
-            <i class="icon_tuichu iconfont icon-tuichu"></i>
-            <a class="tuichu " href="javascript:void (0)" onclick="logout()">退出</a>
+            <!--<div class="layui-layout-right">
+                <button class="layui-btn layui-btn-danger" onclick="logout()">退出</button>
+            </div>-->
+            <a class="tuichu" href="javascript:void (0)" onclick="logout()"><i class="layui-icon layui-icon-close-fill"></i>退出</a>
         </div>
     </div>
 </div>

@@ -34,7 +34,7 @@ public class RoleController {
     @Autowired
     private PermissionService permissionService;
 
-    //@RequiresPermissions("sys.role")
+    @RequiresPermissions("sys.role")
     @RequestMapping(value = "/index")
     public Object index(){
         return "sys/role/index";
@@ -48,6 +48,7 @@ public class RoleController {
      * @return
      */
     @SLog(operate = "查看角色列表")
+    @RequiresPermissions("sys.role")
     @RequestMapping("/roleListData")
     @ResponseBody
     public Object roleListData(@RequestParam("page")int page, @RequestParam("limit")int limit, @RequestParam(value = "roleCondition",required = false) String roleCondition){
@@ -62,6 +63,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/addRole")
+    @RequiresPermissions("sys.role.add")
     public String addRole(){
         return "sys/role/add";
     }
@@ -74,6 +76,7 @@ public class RoleController {
     @SLog(operate = "新增角色")
     @RequestMapping(value="/addRoleDo",method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.role.add")
     public Object addRoleDo(Sys_Role role){
         boolean flag = roleService.save(role);
         if (flag){
@@ -90,6 +93,7 @@ public class RoleController {
      * @return 跳转页面
      */
     @RequestMapping("/editRole")
+    @RequiresPermissions("sys.role.edit")
     public String editRole(@RequestParam("roleId") String roleId,HttpServletRequest request){
         Sys_Role role=roleService.getRoleByRoleId(roleId);
         request.setAttribute("sysRole",role);
@@ -105,6 +109,7 @@ public class RoleController {
     @SLog(operate = "修改角色")
     @RequestMapping(value = "/editRoleDo",method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.role.edit")
     public Object editRoleDo(Sys_Role role){
         boolean flag = roleService.updateById(role);
         if (flag){
@@ -122,6 +127,7 @@ public class RoleController {
     @SLog(operate = "删除角色")
     @RequestMapping(value = "/delRole",method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.role.del")
     public Object delRole(String roleId){
         roleService.delRoleByRoleId(roleId);
         return ResultUtil.success(null,"删除成功");
@@ -134,6 +140,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/assUser")
+    @RequiresPermissions("sys.role.user")
     public String assUser(@RequestParam("roleId")String roleId,HttpServletRequest request){
         request.setAttribute("roleId",roleId);
         return "sys/role/assUser";
@@ -146,6 +153,7 @@ public class RoleController {
      */
     @RequestMapping(value = "/getAssUserData",method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.role.user")
     public Object getAssUserData(@RequestParam("roleId")String roleId){
         List<Sys_User> userList= userService.getAssUserData(roleId);
         return userList;
@@ -158,6 +166,7 @@ public class RoleController {
      */
     @RequestMapping(value = "/getAssedUserData",method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.role.user")
     public Object getAssedUserData(@RequestParam("roleId")String roleId){
         List<Sys_User> userList=userService.getAssedUserData(roleId);
         return userList;
@@ -166,6 +175,7 @@ public class RoleController {
     @RequestMapping(value = "/saveAssUser",method = RequestMethod.POST)
     @ResponseBody
     @SLog(operate = "角色-分配用户")
+    @RequiresPermissions("sys.role.user")
     public Object saveAssUser(@RequestParam("ids")String[] ids,@RequestParam("roleId")String roleId){
         int count=roleService.saveAssUser(ids,roleId);
         ShiroUtil.clearPermisson();
@@ -180,6 +190,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/assPerm")
+    @RequiresPermissions("sys.role.perm")
     public String assPerm(@RequestParam("roleId")String roleId,HttpServletRequest request){
         request.setAttribute("roleId",roleId);
         return "sys/role/assPerm";
@@ -192,6 +203,7 @@ public class RoleController {
      */
     @ResponseBody
     @RequestMapping(value = "/feedbackTree",method = RequestMethod.POST)
+    @RequiresPermissions("sys.role.perm")
     public Object tree(@RequestParam("roleId")String roleId){
         JSONArray permissionList =roleService.getAssPermTree(roleId);
         return permissionList;
@@ -200,6 +212,7 @@ public class RoleController {
     @RequestMapping(value = "/saveAssPerm",method = RequestMethod.POST)
     @ResponseBody
     @SLog(operate = "角色-分配权限")
+    @RequiresPermissions("sys.role.perm")
     public Object saveAssPerm(@RequestParam("ids")String[] ids,@RequestParam("roleId")String roleId){
         int count=roleService.saveAssPerm(ids,roleId);
         ShiroUtil.clearPermisson();

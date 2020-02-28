@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ws.mapper.ApplyMapper">
     <sql id="baseColumn">
-        id,roomId,roomName,roomNo,startTime,endTime,approver,approverId,applicant,applicantId,status
+        id,roomId,roomName,roomNo,startTime,endTime,approver,appTime,approverId,applicant,applicantId,status
     </sql>
     <select id="applyListByPage" resultType="com.ws.bean.Sys_apply">
         select
@@ -24,6 +24,16 @@
                 roomName like '%${applyCondition}%' or roomNo like '%${applyCondition}%' or approver like '%${applyCondition}%' or applicant like '%${applyCondition}%' and
             </if>
             approverId=#{userId}
+        </where>
+    </select>
+    <select id="applyedListByPage" resultType="com.ws.bean.Sys_apply">
+        select
+        <include refid="baseColumn"/>
+        from sys_apply
+        <where>
+            applicantId=#{userId}
+            and
+            status = 1 or status = 6
         </where>
     </select>
     <update id="updateRoom" parameterType="string" >

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ws.mapper.PermissionMapper">
     <sql id="baseColumn">
-        id,name,permission,resource_type,disabled,url,pid
+        id,NAME,permission,resourceType,disabled,url,pid,isHasChildren
     </sql>
     <select id="findPermsByRoleId" resultType="com.ws.bean.Sys_Permission" parameterType="string">
         SELECT

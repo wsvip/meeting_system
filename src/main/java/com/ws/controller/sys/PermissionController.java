@@ -6,6 +6,7 @@ import com.ws.common.utils.ResultUtil;
 import com.ws.common.utils.Strings;
 import com.ws.common.utils.TreeUtil;
 import com.ws.service.PermissionService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class PermissionController {
     private ArrayList<String> ids;
 
     @RequestMapping("/index")
+    @RequiresPermissions("sys.perm")
     public String index() {
         return "sys/perm/index";
     }
@@ -39,6 +41,7 @@ public class PermissionController {
     @SLog(operate = "查看权限列表")
     @RequestMapping("/permTreeTable")
     @ResponseBody
+    @RequiresPermissions("sys.perm")
     public Object permTreeTable() {
         List<Sys_Permission> permList = permissionService.getAllPermission();
         return ResultUtil.success(permList, "ok");
@@ -49,6 +52,7 @@ public class PermissionController {
      *
      * @return
      */
+    @RequiresPermissions("sys.perm.add")
     @RequestMapping("/addPerm")
     public String addPerm() {
         return "sys/perm/add";
@@ -63,6 +67,7 @@ public class PermissionController {
     @SLog(operate = "新增权限")
     @RequestMapping(value = "/addPermDo", method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.perm.add")
     public Object addPermDo(Sys_Permission perm) {
         //如果pid为null或为""空串时,将pid设置为顶级菜单-1
         if (Strings.isEmpty(perm.getPid())) {
@@ -78,6 +83,7 @@ public class PermissionController {
     @SLog(operate = "删除权限")
     @RequestMapping(value = "/delPerm", method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.perm.del")
     public Object delPerm(@RequestParam("permId") String permId) {
         //根据permId获取permission对象
         Sys_Permission permission = permissionService.getById(permId);
@@ -111,6 +117,7 @@ public class PermissionController {
      * @return
      */
     @RequestMapping("/edit")
+    @RequiresPermissions("sys.perm.edit")
     public String edit(@RequestParam("permId") String permId, HttpServletRequest request) {
         Sys_Permission perm = permissionService.getById(permId);
         request.setAttribute("perm", perm);
@@ -125,6 +132,7 @@ public class PermissionController {
     @SLog(operate = "修改权限")
     @RequestMapping(value = "/editDo", method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.perm.edit")
     public Object editDo(Sys_Permission permission) {
         boolean flag = permissionService.updateById(permission);
         if (flag) {
@@ -139,6 +147,7 @@ public class PermissionController {
      *
      * @return
      */
+    @RequiresPermissions("sys.perm")
     @RequestMapping("/tree")
     @ResponseBody
     public Object tree() {

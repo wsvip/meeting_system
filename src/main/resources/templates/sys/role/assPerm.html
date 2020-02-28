@@ -9,7 +9,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-1"></div>
-        <div class="col-xs-10 assPermTree">
+        <div class="col-xs-10 assPermTree" id="assPermTreeDiv" style="overflow: auto;overflow-x: hidden">
             <!--<div id="assPermTree"></div>-->
             <ul id="assPermTree" class="dtree" data-id="0"></ul>
         </div>
@@ -83,14 +83,16 @@
         var feddbackTree = dtree.render({
             elem: "#assPermTree",
             checkbar:true,
-            checkbarType:"no-all",
+            checkbarType:'self',//"no-all",
+            cache:true,
             data: feedbackTreeData, // 使用data加载
+
             //url: "../json/case/demoJson.json" // 使用url加载（可与data加载同时存在）
         });
 
         // 绑定节点点击
         dtree.on("node('assPermTree')" ,function(obj){
-            layer.msg(JSON.stringify(obj.param));
+            //layer.msg(JSON.stringify(obj.param));
         });
         //保存勾选的权限
         $("#saveAssPerm").on('click', function () {

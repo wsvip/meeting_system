@@ -105,7 +105,7 @@ public class ShiroConfig {
     /**
      * 开启aop注解支持
      * @param securityManager
-     * @return
+     * @return AuthorizationAttributeSourceAdvisor
      */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {

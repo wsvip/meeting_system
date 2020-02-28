@@ -15,12 +15,13 @@ layui.use('table', function () {
             /*{field:'id', width:80, title: 'ID', sort: true}*/
             /*,{ title: '序号',templet:'#tableIndex', sort: true,align:'center'}*/
             , {field: 'roomName', title: '会议室名称', align: 'center'}
-            , {field: 'roomNo', title: '会议室编号', sort: true, align: 'center'}
-            , {field: 'startTime', title: '开始时间', align: 'center'}
-            , {field: 'endTime', title: '结束时间', align: 'center'}
-            , {field: 'approver', title: '审批人', minWidth: 100, align: 'center'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+            , {field: 'roomNo', title: '会议室编号',width:120,  align: 'center'}
+            , {field: 'startTime', title: '开始时间', sort: true,align: 'center'}
+            , {field: 'endTime', title: '结束时间', sort: true,align: 'center'}
+            , {field: 'approver', title: '审批人', width:100, align: 'center'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+            , {field: 'appTime', title: '申请时间', sort: true,align: 'center'}
             , {
-                field: 'status', title: '状态', sort: true, align: 'center', templet: function (obj) {
+                field: 'status', title: '状态',width:100, sort: true, align: 'center', templet: function (obj) {
                     if (0 === obj.status) {
                         return '待审批';
                     } else if (1 === obj.status) {
@@ -33,6 +34,8 @@ layui.use('table', function () {
                         return '已取消';
                     }else if(5===obj.status){
                         return '会议室已被删除';
+                    }else{
+                        return '结束使用';
                     }
                 }
             }
@@ -41,9 +44,6 @@ layui.use('table', function () {
         , page: true
         , id: 'applyLayerDataTable'
         , done: function (res, curr, count) {
-            console.log(res);
-            console.log(curr);
-            console.log(count);
         }
     });
 
@@ -130,6 +130,30 @@ layui.use('table', function () {
                 });
             }
 
+        }
+        /*结束使用会议室*/
+        else if (layEvent === 'used'){
+            layer.confirm('真的结束使用吗', function (index) {
+                //重置对应行（tr）的DOM结构，并更新缓存
+                //向服务端发送结束使用指令
+                layer.close(index);
+                var applyId = eventData.id;
+                var roomId=eventData.roomId;
+                $.ajax({
+                    url: '/v1/api/sys/apply/used',
+                    data: {applyId: applyId,roomId:roomId},
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        table.reload('applyLayerDataTable',{
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                        layer.msg(data.msg);
+                    }
+                });
+            });
         }
 
     });
@@ -284,7 +308,7 @@ function selectUser(obj, nameObj, objId) {
                     , last: false //不显示尾页
 
                 }
-                , limit: 5 //每页默认显示的数量
+                , limit: 10 //每页默认显示的数量
                 , method: 'post'
                 , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 , cols: [[

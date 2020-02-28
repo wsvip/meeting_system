@@ -1,8 +1,11 @@
 <%layout("../leftMenu.html"){%>
+<script src="/statics/js/scripts.js"></script>
 <div class="col-lg-11">
     <div class="row">
         <div class="topBar col-lg-4">
+            <%if(shiro.hasPermission("sys.perm.add")){%>
             <a href="javascript:void(0)" onclick="addPerm()" class="btn btn-primary addBtn">新增</a>
+            <%}%>
             <a href="javascript:void(0)" class="btn btn-primary " id="btn_expand">全部展开</a>
             <a href="javascript:void(0)" class="btn btn-primary " id="btn_fold">全部折叠</a>
             <a href="javascript:void(0)" class="btn btn-primary " id="btn_refresh">刷新表格</a>
@@ -11,131 +14,27 @@
             <input type="text" class="form-control" id="condition" name="condition" placeholder="请输入关键字搜索">
         </div>
         <div class="topBar col-lg-1">
-            <a href="javasctipt:void(0)"  data-type="reload"  class="btn btn-primary" id="permSeach" >搜索</a>
+            <a href="javascript:void(0)" data-type="reload" class="btn btn-primary" id="permSeach">搜索</a>
         </div>
     </div>
     <div class="row">
-       <div class="listDataBox">
-           <table id="permTreeTable" class="layui-table" lay-filter="permTreeTableFilter"></table>
-       </div>
+        <div class="listDataBox" >
+            <table id="permTreeTable" class="layui-table" lay-filter="permTreeTableFilter"></table>
+        </div>
     </div>
 </div>
 <script type="text/html" id="barDemo">
+    <%if(shiro.hasPermission("sys.perm.edit")){%>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" >删除</a>
+    <%}%>
+    <%if(shiro.hasPermission("sys.perm.del")){%>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <%}%>
 </script>
 <script type="text/html" id="tableIndex">
     {{d.LAY_TABLE_INDEX+1}}
 </script>
 <script>
-    layui.use(['layer', 'table', 'treetable'], function () {
-        var permTreetable = layui.treetable;
-        var permTable=layui.table;
-        // 渲染表格
-        var renderTable = function () {
-            layer.load(2);
-            permTreetable.render({
-                treeColIndex: 1,
-                treeSpid: -1,
-                treeIdName: 'id',
-                treePidName: 'pid',
-                treeDefaultClose: false,
-                treeLinkage: false,
-                elem: '#permTreeTable',
-                url: '/v1/api/sys/perm/permTreeTable',
-                page: false,
-                cols: [[
-                    {type: 'numbers'},
-                    {field: 'name', title: '名称'},
-                    {field: 'permission', title: '权限标识'},
-                    {field: 'url', title: '路径'},
-                    {field: 'resourceType', title: '类型',align:'center',templet: function (data) {
-                            if (data.resourceType == -1){//菜单
-                                return '<span class="layui-badge layui-bg-blue">目录</span>'
-                            }else if (data.resourceType == 1){//按钮
-                                return '<span class="layui-badge layui-bg-gray">按钮</span>'
-                            }else if (data.resourceType==0){//目录
-                                return '<span class="layui-badge layui-bg-orange">菜单</span>'
-                            }
-                        }},
-                    {fixed: 'right', title: '操作', toolbar: '#barDemo', align: 'center'}
-                ]],
-                done: function () {
-                    layer.closeAll('loading');
-                }
-            });
-            permTable.on('tool(permTreeTableFilter)',function (obj) {
-                var data = obj.data;
-                var event = obj.event;
-                //删除行
-                if (event==='del'){
-                    layer.confirm('真的删除行么', function (index) {
-                        //删除对应行（tr）的DOM结构，并更新缓存
-                        //向服务端发送删除指令
-                        layer.close(index);
-                        var permId = data.id;
-                        $.ajax({
-                            url: '/v1/api/sys/perm/delPerm',
-                            data: {permId: permId},
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function (data) {
-                                renderTable();
-                                layer.msg(data.msg);
-                            }
-                        });
-                    });
-                }
-                //修改
-                else if (event==='edit'){
-                    layer.open({
-                        type: 2,
-                        title: '修改权限',
-                        area: ['600px', '500px'],
-                        shadeClose: true,
-                        shade: [0.8, '#808283'],
-                        content: ['/v1/api/sys/perm/edit?permId=' + data.id, 'no'],
-                    });
-                }
-            })
 
-        };
-        renderTable();
-        /*搜索*/
-        $('#permSeach').click(function () {
-            var keyword = $('#condition').val();
-            var searchCount = 0;
-            $('#permTreeTable').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
-                $(this).css('background-color', 'transparent');
-                var text = $(this).text();
-                if (keyword != '' && text.indexOf(keyword) >= 0) {
-                    $(this).css('background-color', 'rgba(20,250,140,0.96)');
-                    if (searchCount == 0) {
-                        permTreetable.expandAll('#permTreeTable');
-                        $('html,body').stop(true);
-                        $('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
-                    }
-                    searchCount++;
-                }
-            });
-            if (keyword == '') {
-                layer.msg("请输入搜索内容", {icon: 5});
-            } else if (searchCount == 0) {
-                layer.msg("没有匹配结果", {icon: 5});
-            }
-        });
-        /*全部展开*/
-        $("#btn_expand").click(function () {
-            permTreetable.expandAll("#permTreeTable");
-        });
-        /*全部折叠*/
-        $("#btn_fold").click(function () {
-            permTreetable.foldAll("#permTreeTable");
-        });
-        /*刷新表格*/
-        $("#btn_refresh").click(function () {
-            renderTable();
-        });
-    });
 </script>
 <%}%>

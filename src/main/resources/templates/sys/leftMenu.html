@@ -1,66 +1,92 @@
 <%layout("index.html"){%>
 <div class="row">
-    <div class="col-lg-1 menuBody">
-        <div class="row _menu" style="border-bottom: 1px solid #0077da;">
-            <div class="col-lg-12 menu">
-                <a href="/v1/api/sys/user/index">
-                    <i class="icon_yonghuguanli iconfont icon-icon_zhanghao"></i>
-                    <p class="left_menu_font">用户管理</p>
+    <div class="col-lg-1 layui-bg-cyan menuBody">
+        <ul class="layui-nav layui-nav-tree   layui-bg-cyan leftMenu" id="menuUl">
+            <!--<%if(shiro.hasPermission("sys.pend")){%>
+            <li class="layui-nav-item">
+                <a href="/v1/api/sys/pending/index"  class="menuFont">
+                    待办事项
                 </a>
-            </div>
-        </div>
-        <div class="row _menu" style="border-bottom: 1px solid #0077da;">
-            <div class="col-lg-12 menu">
-                <a href="/v1/api/sys/role/index">
-                    <i class="icon_yonghuguanli iconfont icon-zhanghaoquanxianguanli"></i>
-                    <p>角色管理</p>
+            </li>
+            <%}%>
+            <%if(shiro.hasPermission("sys.apply")){%>
+            <li class="layui-nav-item">
+                <a href="/v1/api/sys/apply/index" class="menuFont">
+                    申请单管理
                 </a>
-            </div>
-        </div>
-        <div class="row _menu" style="border-bottom: 1px solid #0077da;">
-            <div class="col-lg-12 menu">
-                <a href="/v1/api/sys/perm/index">
-                    <i class="icon_yonghuguanli iconfont icon-quanxianguanli"></i>
-                    <p>权限管理</p>
+            </li>
+            <%}%>
+            <%if(shiro.hasPermission("sys.room")){%>
+            <li class="layui-nav-item">
+                <a href="/v1/api/sys/room/index" class="menuFont">
+                    会议室管理
                 </a>
-            </div>
-        </div>
-        <div class="row _menu" style="border-bottom: 1px solid #0077da;">
-            <div class="col-lg-12 menu">
-                <a href="/v1/api/sys/apply/index">
-                    <i class="icon_yonghuguanli iconfont icon-ceshishenqing"></i>
-                    <p>申请单管理</p>
+            </li>
+            <%}%>
+            <%if(shiro.hasPermission("sys.record")){%>
+            <li class="layui-nav-item">
+                <a href="/v1/api/sys/record/index" class="menuFont">
+                    会议记录管理
                 </a>
-            </div>
-        </div>
-        <div class="row _menu">
-            <div class="col-lg-12 menu">
-                <a href="/v1/api/sys/room/index">
-                    <i class="icon_yonghuguanli iconfont icon-icon_huiyishi"></i>
-                    <p>会议室管理</p>
+            </li>
+            <%}%>
+            <%if(shiro.hasPermission("sys.user")){%>
+            <li class="layui-nav-item">
+                <a href="/v1/api/sys/user/index" class="menuFont">
+                    用户管理
                 </a>
-            </div>
-        </div>
-        <div class="row _menu">
-            <div class="col-lg-12 menu">
-                <a href="/v1/api/sys/pending/index">
-                    <i class="icon_yonghuguanli iconfont icon-daiban"></i>
-                    <p>待办事项</p>
+            </li>
+            <%}%>
+            <%if(shiro.hasPermission("sys.role")){%>
+            <li class="layui-nav-item ">
+                <a href="/v1/api/sys/role/index" class="menuFont">
+                    角色管理
                 </a>
-            </div>
-        </div>
+            </li>
+            <%}%>
+            <%if(shiro.hasPermission("sys.perm")){%>
+            <li class="layui-nav-item">
+                <a href="/v1/api/sys/perm/index" class="menuFont">
+                    权限管理
+                </a>
+            </li>
+            <%}%>-->
+        </ul>
     </div>
     ${layoutContent}
 </div>
 <script>
-    //获取屏幕高度
+    layui.use('element', function () {
+
+    });
     var avaliHeight = $(document).height();
     //获取头部元素高度
     var headerHeight = $(".sys_header").innerHeight();
-    var _menu = $("._menu");
-    //设置各个菜单模块高度
-    _menu.height((avaliHeight - headerHeight) / 6 - 0.8);
+    $(".menuBody").height(avaliHeight - headerHeight);
 
-    $(".menu").height((_menu.innerHeight()) / 2);
+    function addLi() {
+        var li='';
+        var menus=JSON.parse(localStorage.getItem("menus"));
+        for (var i = 0; i < menus.length; i++) {
+            var id=menus[i].permission.substr(menus[i].permission.lastIndexOf('.')+1);
+            console.log(id);
+            li+='<li class="layui-nav-item " id="'+id+'">\n';
+            li+='    <a href="'+menus[i].url+'"  class="menuFont">\n';
+            li+='        '+menus[i].name+'\n';
+            li+='    </a>\n';
+            li+='</li>\n';
+        }
+        $("#menuUl").append(li);
+    }
+    addLi();
+    $("ul li").click(function () {
+        console.log("test");
+        var _menuId=$(this).attr("id");
+        console.log("_menuId="+_menuId);
+        localStorage.setItem("check",_menuId);
+    });
+    var menuLid = localStorage.getItem("check");
+    console.log(menuLid);
+    $("#"+menuLid).addClass("layui-this");
 </script>
 <%}%>

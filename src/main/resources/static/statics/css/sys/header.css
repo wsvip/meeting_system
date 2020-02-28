@@ -3,6 +3,7 @@
     height: 50px;
     background-color: #cccccc;
     opacity: 0.5;
+
 }
 .username{
     line-height: 50px;
@@ -11,4 +12,5 @@
 .tuichu{
     line-height: 50px;
     font-size: 18px;
+    color: #FFFFFF;
 }

@@ -23,4 +23,6 @@ public interface ApplyMapper extends BaseMapper<Sys_apply> {
     boolean updateApplyStatus(@Param("roomId")String roomId, @Param("status")int status);
 
     List<Sys_apply> pendingListByPage(Page<Sys_apply> iPage, @Param("applyCondition")String applyCondition,@Param("userId") String userId);
+
+    List<Sys_apply> applyedListByPage(Page<Sys_apply> iPage, @Param("userId")String userId);
 }

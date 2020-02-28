@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%include("../../layout/assets.html"){}%>
+</head>
+<body>
+<div class="container">
+    <div class="row" >
+        <div class="formBody">
+            <form class="form-inline" action="#" type="post" id="recordData">
+                <div class="col-xs-12 form-group">
+                    <label for="recordName" class="col-xs-2 control-label">会议名称</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" id="recordName" name="recordName" placeholder="会议名称">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="roomName" class="col-xs-2 control-label">会议室</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control"  id="roomName" name="roomNameComfirm" readonly   placeholder="请选择会议室">
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectApplyed($('#roomName'),$('input[name=roomName]'),$('#roomId'),'radio')">选择</button>
+                        <input type="hidden" name="roomName">
+                        <input type="hidden" id="roomId" name="roomId">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="host" class="col-xs-2 control-label">主持人</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control"  id="host" name="approverComfirm" readonly   placeholder="请选择会议主持人">
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectRecordUser($('#host'),$('input[name=host]'),$('#hostId'),'radio')">选择</button>
+                        <input type="hidden" name="host">
+                        <input type="hidden" id="hostId" name="hostId">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="commissioner" class="col-xs-2 control-label">会务专员</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control"  id="commissioner" name="commissionerComfirm" readonly   placeholder="请选择会务专员">
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectRecordUser($('#commissioner'),$('input[name=commissioner]'),$('#commissionerId'),'checkbox')">选择</button>
+                        <input type="hidden" name="commissioner">
+                        <input type="hidden" id="commissionerId" name="commissionerId">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="attend" class="col-xs-2 control-label">参会人员</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control"  id="attend" name="attendComfirm" readonly   placeholder="请选择会议室审批人">
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectRecordUser($('#attend'),$('input[name=attend]'),$('#attendId'),'checkbox')">选择</button>
+                        <input type="hidden" name="attend">
+                        <input type="hidden" id="attendId" name="attendId">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="startTime" class="col-xs-2 control-label">会议时长</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control"  id="startTime" name="startTime" readonly  placeholder="会议室时间">
+                    </div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <label for="content" class="col-xs-2 control-label">会议内容</label>
+                    <div class="col-xs-10">
+                        <textarea id="content" name="content" required lay-verify="required"  class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="formBar">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <a href="javascript:void(0)" class="btn btn-primary submitBtn" onclick="submitRecordDataForm()">提交</a>
+            </div>
+            <!--<div class="col-xs-2">
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="cancelForm()">取消</a>
+            </div>-->
+            <div class="col-xs-4"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+        var userData=$("#userData");
+        validetorUser(userData);
+    })
+</script>

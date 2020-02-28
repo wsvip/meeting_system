@@ -5,10 +5,12 @@ import com.ws.annotation.SLog;
 import com.ws.bean.Sys_User;
 import com.ws.bean.Sys_apply;
 import com.ws.bean.Sys_room;
+import com.ws.common.utils.DateUtil;
 import com.ws.common.utils.ResultUtil;
 import com.ws.service.ApplyService;
 import com.ws.service.RoomService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,7 @@ public class ApplyController {
     private RoomService roomService;
 
     @RequestMapping("/index")
+    @RequiresPermissions("sys.apply")
     public Object index() {
         return "sys/apply/index";
     }
@@ -35,12 +38,25 @@ public class ApplyController {
     @RequestMapping("/applyListData")
     @ResponseBody
     @SLog(operate = "查看申请列表")
-    public Object userListData(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "applyCondition", required = false) String applyCondition) {
+    @RequiresPermissions("sys.apply")
+    public Object applyListData(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "applyCondition", required = false) String applyCondition) {
         Sys_User user = (Sys_User) SecurityUtils.getSubject().getPrincipal();
         Page<Sys_apply> iPage = new Page<>(page, limit);
         List<Sys_apply> applylist = applyService.applyListByPage(iPage, applyCondition,user.getId());
         int count = applyService.count();
         return ResultUtil.layuiPageData(0, null, count, applylist);
+    }
+
+    @RequestMapping("/applyedListData")
+    @ResponseBody
+    @SLog(operate = "查看已通过申请列表")
+    @RequiresPermissions("sys.apply")
+    public Object applyedListData(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+        Sys_User user = (Sys_User) SecurityUtils.getSubject().getPrincipal();
+        Page<Sys_apply> iPage = new Page<>(page, limit);
+        List<Sys_apply> applyedlist = applyService.applyedListByPage(iPage,user.getId());
+        int count = applyService.count();
+        return ResultUtil.layuiPageData(0, null, count, applyedlist);
     }
 
     @RequestMapping(value = "/editApply")
@@ -54,7 +70,7 @@ public class ApplyController {
         return "sys/apply/edit";
     }
 
-    @SLog(operate = "修改申请信息")
+    @SLog(operate = "重新申请")
     @RequestMapping(value = "/editApplyDo", method = RequestMethod.POST)
     @ResponseBody
     public Object editApplyDo(Sys_apply apply) {
@@ -62,11 +78,13 @@ public class ApplyController {
         String[] time = startTime.split(" - ");
         apply.setStartTime(time[0]);
         apply.setEndTime(time[1]);
+        apply.setAppTime(DateUtil.getDateTime());
+        apply.setStatus(0);
         boolean flag = applyService.updateById(apply);
         if (flag) {
-            return ResultUtil.success(flag, "修改成功！");
+            return ResultUtil.success(flag, "重新申请成功！");
         } else {
-            return ResultUtil.error(1, "修改失败!");
+            return ResultUtil.error(1, "重新申请失败!");
         }
     }
 
@@ -93,6 +111,7 @@ public class ApplyController {
     @SLog(operate = "删除申请")
     @RequestMapping(value = "/delApply", method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.apply.del")
     public Object delApply(String applyId, String roomId) {
         boolean flag = applyService.removeById(applyId);
         Sys_room room = new Sys_room();
@@ -103,6 +122,27 @@ public class ApplyController {
             return ResultUtil.success(flag, "删除成功");
         } else {
             return ResultUtil.error(1, "删除失败");
+        }
+
+    }
+
+    @SLog(operate = "结束使用会议室")
+    @RequestMapping(value = "/used", method = RequestMethod.POST)
+    @ResponseBody
+    public Object used(String applyId, String roomId) {
+        Sys_apply apply = new Sys_apply();
+        //将状态置为6，表示结束使用该会议室
+        apply.setId(applyId);
+        apply.setStatus(6);
+        applyService.updateById(apply);
+        Sys_room room = new Sys_room();
+        room.setId(roomId);
+        room.setStatus(2);
+        boolean flag = roomService.updateById(room);
+        if (flag) {
+            return ResultUtil.success(flag, "已结束使用");
+        } else {
+            return ResultUtil.error(1, "操作失败");
         }
 
     }

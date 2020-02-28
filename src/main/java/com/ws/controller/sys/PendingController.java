@@ -10,6 +10,7 @@ import com.ws.common.utils.ResultUtil;
 import com.ws.service.ApplyService;
 import com.ws.service.RoomService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +29,15 @@ public class PendingController {
     private RoomService roomService;
 
     @RequestMapping("/index")
+    @RequiresPermissions("sys.pend")
     public Object index() {
         return "sys/pending/index";
     }
 
     @RequestMapping("/pendingListData")
     @ResponseBody
-    @SLog(operate = "查看申请列表")
+    @SLog(operate = "查看待办事项列表")
+    @RequiresPermissions("sys.pend")
     public Object applyListData(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "applyCondition", required = false) String applyCondition) {
         Sys_User user= (Sys_User) SecurityUtils.getSubject().getPrincipal();
         Page<Sys_apply> iPage = new Page<>(page, limit);
@@ -43,9 +46,10 @@ public class PendingController {
         return ResultUtil.layuiPageData(0, null, count, applylist);
     }
 
-    @SLog(operate = "审批申请")
+    @SLog(operate = "审批申请单")
     @RequestMapping(value = "/approvalApply", method = RequestMethod.POST)
     @ResponseBody
+    @RequiresPermissions("sys.pend.approval")
     public Object approvalApply(String applyId, String roomId,boolean flag) {
         Sys_room room = new Sys_room();
         room.setId(roomId);

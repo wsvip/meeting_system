@@ -25,13 +25,13 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @RequiresPermissions("sys.user")
     @RequestMapping("/index")
     public Object index(){
         return "sys/user/index";
     }
 
-
+    @RequiresPermissions("sys.user")
     @RequestMapping("/userListData")
     @ResponseBody
     @SLog(operate = "查看用户列表")
@@ -42,6 +42,7 @@ public class UserController {
         return ResultUtil.layuiPageData(0,null,count,userlist);
     }
 
+    @RequiresPermissions("sys.user")
     @RequestMapping("/addUser")
     public Object addUser(){
         return "sys/user/add";
@@ -58,6 +59,7 @@ public class UserController {
      * @Date:    2019/4/22  10:52
      * @Description:
      */
+    @RequiresPermissions("sys.user.add")
     @SLog(operate = "新增用户")
     @RequestMapping(value = "/addUserDo", method = RequestMethod.POST)
     @ResponseBody
@@ -88,6 +90,7 @@ public class UserController {
      * @param userId 用户id
      * @return map
      */
+    @RequiresPermissions("sys.user.delete")
     @SLog(operate = "删除用户")
     @RequestMapping(value = "/delUserData",method = RequestMethod.POST)
     @ResponseBody
@@ -108,7 +111,7 @@ public class UserController {
      * @param request
      * @return
      */
-    @SLog(operate = "修改用户")
+    @RequiresPermissions("sys.user")
     @RequestMapping(value = "/editUser")
     public Object editUser(@RequestParam("userId") String userId, HttpServletRequest request){
         Sys_User user=userService.findByUserId(userId);
@@ -116,7 +119,8 @@ public class UserController {
         return "sys/user/edit";
     }
 
-
+    @RequiresPermissions("sys.user.edit")
+    @SLog(operate = "修改用户")
     @RequestMapping(value = "/editUserDo",method = RequestMethod.POST)
     @ResponseBody
     public Object editUserDo(Sys_User user){

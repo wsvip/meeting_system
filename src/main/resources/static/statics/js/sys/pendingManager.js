@@ -19,6 +19,7 @@ layui.use('table', function () {
             , {field: 'startTime', title: '开始时间', align: 'center'}
             , {field: 'endTime', title: '结束时间', align: 'center'}
             , {field: 'applicant', title: '申请人', minWidth: 100, align: 'center'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+            , {field: 'appTime', title: '申请时间', align: 'center'}
             , {
                 field: 'status', title: '状态', sort: true, align: 'center', templet: function (obj) {
                     if (0 === obj.status) {
@@ -33,6 +34,19 @@ layui.use('table', function () {
                         return '已取消';
                     } else if (5 === obj.status) {
                         return '会议室已被删除';
+                    } else {
+                        return '已审批';
+                    }
+                }
+            }
+            , {
+                field: 'status', title: '审批结果', sort: true, align: 'center', templet: function (obj) {
+                    if (1 === obj.status || 6 === obj.status) {
+                        return '通过';
+                    } else if (2 === obj.status) {
+                        return '未通过';
+                    } else {
+                        return '';
                     }
                 }
             }
@@ -177,8 +191,8 @@ function accApply(applyId, roomId) {
         data: {applyId: applyId, roomId: roomId, flag: true},
         success: function (data) {
             if (data.code === 0) {
-                layer.msg('该申请已通过', {icon: 1});
-                table.reload('pendingLayerDataTable', {
+                layer.msg('审批成功', {icon: 1});
+                parent.location.reload('pendingLayerDataTable', {
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
@@ -196,8 +210,8 @@ function failApply(applyId, roomId) {
         data: {applyId: applyId, roomId: roomId, flag: false},
         success: function (data) {
             if (data.code === 0) {
-                layer.msg('该申请已通过', {icon: 1});
-                table.reload('pendingLayerDataTable', {
+                layer.msg('审批成功', {icon: 1});
+                parent.location.reload('pendingLayerDataTable', {
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }

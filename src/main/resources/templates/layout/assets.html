@@ -28,7 +28,7 @@
 <script src="/statics/js/bootstrap.min.js"></script>
 <script src="/statics/js/jquery.backstretch.min.js"></script>
 <script src="/statics/js/retina-1.1.0.min.js"></script>
-<script src="/statics/js/scripts.js"></script>
+<!--<script src="/statics/js/scripts.js"></script>-->
 <script src="/statics/js/bootstrapValidator.min.js"></script>
 <script src="/statics/js/jquery.form.min.js"></script>
 <script src="/statics/plugs/layui/layui.js"></script>
@@ -47,6 +47,8 @@
 <script src="/statics/js/sys/applyManager.js"></script>
 <!--待办事项管理JS文件-->
 <script src="/statics/js/sys/pendingManager.js"></script>
+<!--会议记录管理JS文件-->
+<script src="/statics/js/sys/recordManager.js"></script>
 <!--[if lt IE 10]>
 <script src="/statics/js/placeholder.js"></script>
 <![endif]-->
@@ -56,7 +58,15 @@
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+    ::-webkit-scrollbar{width: 10px; height: 10px;}
+    ::-webkit-scrollbar-button:vertical{display: none;}
+    ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner{background-color: #e2e2e2;}
+    ::-webkit-scrollbar-thumb{border-radius: 0; background-color: rgba(0,0,0,.3);}
+    ::-webkit-scrollbar-thumb:vertical:hover{background-color: rgba(0,0,0,.35);}
+    ::-webkit-scrollbar-thumb:vertical:active{background-color: rgba(0,0,0,.38);}
 
+</style>
 
 <!--获取公网ip-->
 <script type="text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
@@ -67,8 +77,7 @@
         treetable: '/layerplugs/treetable',
         transfers: '/layerplugs/transfer',
         dtree: '/layui-ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
-    })
-
+    });
 
 
 </script>

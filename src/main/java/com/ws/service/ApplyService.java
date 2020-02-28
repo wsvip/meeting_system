@@ -33,4 +33,12 @@ public interface ApplyService extends IService<Sys_apply> {
     boolean updateApplyStatus(String roomId, int status);
 
     List<Sys_apply> pendingListByPage(Page<Sys_apply> iPage, String applyCondition, String id);
+
+    /**
+     * 分页获取当前用户已通过申请的列表
+     * @param iPage 分页
+     * @param userId 当前登录用户id
+     * @return List<Sys_apply>
+     */
+    List<Sys_apply> applyedListByPage(Page<Sys_apply> iPage, String userId);
 }

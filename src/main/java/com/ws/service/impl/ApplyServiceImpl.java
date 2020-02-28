@@ -38,4 +38,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Sys_apply> implem
         List<Sys_apply> pendingList =applyMapper.pendingListByPage(iPage,applyCondition,userId);
         return pendingList;
     }
+
+    @Override
+    public List<Sys_apply> applyedListByPage(Page<Sys_apply> iPage, String userId) {
+        List<Sys_apply> applyedList=applyMapper.applyedListByPage(iPage,userId);
+        return applyedList;
+    }
 }
