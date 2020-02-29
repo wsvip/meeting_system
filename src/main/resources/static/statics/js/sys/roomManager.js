@@ -347,5 +347,7 @@ layui.use('laydate',function () {
         ,type:'datetime'
         //,format: 'yyyy-MM-dd HH:mm:ss|yyyy-MM-dd HH:mm:ss'
         ,range: true
+        ,min: 0
+        ,max: '2099-12-31 00:00:00'
     });
 });

@@ -25,4 +25,13 @@ public interface ApplyMapper extends BaseMapper<Sys_apply> {
     List<Sys_apply> pendingListByPage(Page<Sys_apply> iPage, @Param("applyCondition")String applyCondition,@Param("userId") String userId);
 
     List<Sys_apply> applyedListByPage(Page<Sys_apply> iPage, @Param("userId")String userId);
+
+    List<Sys_apply> getLessThanNowApplying();
+
+    void updateLessThanNowApplying(@Param("applyIds")Object[] applyIds);
+
+    List<Sys_apply> getLessThanNowApplyed();
+
+    void updateLessThanNowApplyed(@Param("applyIds")Object[] toArray);
+
 }

@@ -18,4 +18,7 @@ public interface RoomMapper extends BaseMapper<Sys_room> {
      * @return  List<Sys_room>
      */
     List<Sys_room> roomListByPage(Page<Sys_room> iPage, @Param("roomCondition")String roomCondition);
+
+    void updateLessThanNowRoom(@Param("roomIds") Object[] roomIds);
+
 }

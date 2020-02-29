@@ -36,6 +36,24 @@
             status = 1 or status = 6
         </where>
     </select>
+    <select id="getLessThanNowApplying" resultType="com.ws.bean.Sys_apply">
+        select
+        <include refid="baseColumn"/>
+        from sys_apply
+        <where>
+            endTime &lt;= NOW()
+            and status= 0;
+        </where>
+    </select>
+    <select id="getLessThanNowApplyed" resultType="com.ws.bean.Sys_apply">
+        select
+        <include refid="baseColumn"/>
+        from sys_apply
+        <where>
+            endTime &lt;= NOW()
+            and status= 1;
+        </where>
+    </select>
     <update id="updateRoom" parameterType="string" >
         update sys_apply set
         roomName=#{roomName},
@@ -48,5 +66,25 @@
         status=#{status}
         where
         roomId=#{roomId};
+    </update>
+    <update id="updateLessThanNowApplying">
+        update sys_apply set
+        status=3
+        where
+        id
+        in
+        <foreach collection="applyIds" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateLessThanNowApplyed">
+        update sys_apply set
+        status=6
+        where
+        id
+        in
+        <foreach collection="applyIds" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </update>
 </mapper>

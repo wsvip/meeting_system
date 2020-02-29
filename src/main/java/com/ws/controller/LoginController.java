@@ -94,6 +94,10 @@ public class LoginController {
             userService.updateUser(user);
             //获取用户权限菜单，用于登录后生成菜单
             List<Sys_Permission> menus=userService.getUserPermissionMenus(user.getId());
+            if (null == menus) {
+                subject.logout();
+                return ResultUtil.warming(-1,"该用户没有权限访问系统，请联系管理员",null);
+            }
             return ResultUtil.success(menus,"登录成功，正在跳转页面");
         } catch (AuthenticationException e) {
             e.printStackTrace();

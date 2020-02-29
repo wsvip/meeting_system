@@ -31,7 +31,6 @@ public class UserController {
         return "sys/user/index";
     }
 
-    @RequiresPermissions("sys.user")
     @RequestMapping("/userListData")
     @ResponseBody
     @SLog(operate = "查看用户列表")
@@ -90,7 +89,7 @@ public class UserController {
      * @param userId 用户id
      * @return map
      */
-    @RequiresPermissions("sys.user.delete")
+    @RequiresPermissions("sys.user.del")
     @SLog(operate = "删除用户")
     @RequestMapping(value = "/delUserData",method = RequestMethod.POST)
     @ResponseBody

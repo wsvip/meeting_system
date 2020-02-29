@@ -41,4 +41,11 @@ public interface ApplyService extends IService<Sys_apply> {
      * @return List<Sys_apply>
      */
     List<Sys_apply> applyedListByPage(Page<Sys_apply> iPage, String userId);
+
+    /**
+     * 设置结束时间小于当前时间的待审批申请、状态为申请超时
+     */
+    void updateLessThanNowApplying();
+
+    void updateLessThanNowApplyed();
 }

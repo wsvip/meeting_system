@@ -4,6 +4,16 @@
     <sql id="baseColumn">
         id,roomName,roomNo,createTime,status,capacity,principal,principalId,remark
     </sql>
+    <update id="updateLessThanNowRoom">
+        update sys_room
+        set status = 2
+        where
+        id
+        in
+        <foreach collection="roomIds" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
     <select id="roomListByPage" resultType="com.ws.bean.Sys_room">
         select
         <include refid="baseColumn"/>

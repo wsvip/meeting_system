@@ -386,7 +386,7 @@ layui.use('laydate',function () {
     var laydate = layui.laydate;
     //日期范围
     laydate.render({
-        elem: '#startTime'
+        elem: '#_startTime'
         ,type:'datetime'
         //,format: 'yyyy-MM-dd HH:mm:ss|yyyy-MM-dd HH:mm:ss'
         ,range: true
