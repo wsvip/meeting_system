@@ -34,7 +34,7 @@ layui.use('table', function () {
         var layEvent = obj.event;
         /*删除行*/
         if (layEvent === 'del') {
-            layer.confirm('真的删除行么', function (index) {
+            layer.confirm('真的删除该角色么', function (index) {
                 //删除对应行（tr）的DOM结构，并更新缓存
                 //向服务端发送删除指令
                 layer.close(index);
@@ -45,7 +45,9 @@ layui.use('table', function () {
                     type: 'POST',
                     dataType: 'json',
                     success: function (data) {
-                        obj.del();
+                        if (data.code==0){
+                            obj.del();
+                        }
                         layer.msg(data.msg);
                     }
                 });

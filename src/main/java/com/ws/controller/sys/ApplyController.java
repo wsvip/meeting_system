@@ -74,6 +74,7 @@ public class ApplyController {
     @RequestMapping(value = "/editApplyDo", method = RequestMethod.POST)
     @ResponseBody
     public Object editApplyDo(Sys_apply apply) {
+
         String startTime = apply.getStartTime();
         String[] time = startTime.split(" - ");
         apply.setStartTime(time[0]);
@@ -81,7 +82,11 @@ public class ApplyController {
         apply.setAppTime(DateUtil.getDateTime());
         apply.setStatus(0);
         boolean flag = applyService.updateById(apply);
-        if (flag) {
+        Sys_room room = new Sys_room();
+        room.setId(apply.getRoomId());
+        room.setStatus(0);
+        boolean _flag = roomService.updateById(room);
+        if (flag&&_flag) {
             return ResultUtil.success(flag, "重新申请成功！");
         } else {
             return ResultUtil.error(1, "重新申请失败!");
@@ -100,8 +105,8 @@ public class ApplyController {
         Sys_room room = new Sys_room();
         room.setId(roomId);
         room.setStatus(2);
-        roomService.updateById(room);
-        if (flag) {
+        boolean _flag = roomService.updateById(room);
+        if (flag&&_flag) {
             return ResultUtil.success(flag, "取消成功！");
         } else {
             return ResultUtil.error(1, "取消失败!");
@@ -117,8 +122,8 @@ public class ApplyController {
         Sys_room room = new Sys_room();
         room.setId(roomId);
         room.setStatus(2);
-        roomService.updateById(room);
-        if (flag) {
+        boolean _flag = roomService.updateById(room);
+        if (flag&&_flag) {
             return ResultUtil.success(flag, "删除成功");
         } else {
             return ResultUtil.error(1, "删除失败");
@@ -134,12 +139,12 @@ public class ApplyController {
         //将状态置为6，表示结束使用该会议室
         apply.setId(applyId);
         apply.setStatus(6);
-        applyService.updateById(apply);
+        boolean _flag = applyService.updateById(apply);
         Sys_room room = new Sys_room();
         room.setId(roomId);
         room.setStatus(2);
         boolean flag = roomService.updateById(room);
-        if (flag) {
+        if (flag&&_flag) {
             return ResultUtil.success(flag, "已结束使用");
         } else {
             return ResultUtil.error(1, "操作失败");

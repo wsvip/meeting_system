@@ -36,6 +36,15 @@ layui.use([ 'table', 'treetable'], function () {
                         }
                     }
                 },
+                {
+                    field: 'disabled', title: '是否禁用', align: 'center',singleLine:true, templet: function (data) {
+                        if (data.disabled){
+                            return '<span class="layui-badge layui-bg-red">是</span>'
+                        }else{
+                            return '<span class="layui-badge layui-bg-green">否</span>'
+                        }
+                    }
+                },
                 {fixed: 'right', title: '操作', toolbar: '#barDemo', align: 'center'}
             ]],
             done: function () {
@@ -47,7 +56,7 @@ layui.use([ 'table', 'treetable'], function () {
             var event = obj.event;
             //删除行
             if (event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
+                layer.confirm('真的删除该权限么', function (index) {
                     //删除对应行（tr）的DOM结构，并更新缓存
                     //向服务端发送删除指令
                     layer.close(index);

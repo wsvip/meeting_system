@@ -69,7 +69,7 @@
         var menus=JSON.parse(localStorage.getItem("menus"));
         for (var i = 0; i < menus.length; i++) {
             var id=menus[i].permission.substr(menus[i].permission.lastIndexOf('.')+1);
-            console.log(id);
+
             li+='<li class="layui-nav-item " id="'+id+'">\n';
             li+='    <a href="'+menus[i].url+'"  class="menuFont">\n';
             li+='        '+menus[i].name+'\n';
@@ -82,11 +82,11 @@
     $("ul li").click(function () {
         console.log("test");
         var _menuId=$(this).attr("id");
-        console.log("_menuId="+_menuId);
+
         localStorage.setItem("check",_menuId);
     });
     var menuLid = localStorage.getItem("check");
-    console.log(menuLid);
+
     $("#"+menuLid).addClass("layui-this");
 </script>
 <%}%>

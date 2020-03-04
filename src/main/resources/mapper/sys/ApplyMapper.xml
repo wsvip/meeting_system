@@ -10,7 +10,7 @@
         from sys_apply
         <where>
             <if test="applyCondition!=null">
-                roomName like '%${applyCondition}%' or roomNo like '%${applyCondition}%' or approver like '%${applyCondition}%' or applicant like '%${applyCondition}%' and
+                CONCAT(roomName,roomNo,approver,applicant) like '%${applyCondition}%' and
             </if>
             applicantId=#{userId}
         </where>
@@ -21,7 +21,7 @@
         from sys_apply
         <where>
             <if test="applyCondition!=null">
-                roomName like '%${applyCondition}%' or roomNo like '%${applyCondition}%' or approver like '%${applyCondition}%' or applicant like '%${applyCondition}%' and
+                CONCAT(roomName,roomNo,approver,applicant) like '%${applyCondition}%' and
             </if>
             approverId=#{userId}
         </where>
@@ -33,7 +33,7 @@
         <where>
             applicantId=#{userId}
             and
-            status = 1 or status = 6
+            status regexp'1|6'
         </where>
     </select>
     <select id="getLessThanNowApplying" resultType="com.ws.bean.Sys_apply">

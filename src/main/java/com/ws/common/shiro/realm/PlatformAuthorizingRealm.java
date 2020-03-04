@@ -39,12 +39,14 @@ public class PlatformAuthorizingRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         Sys_User user = (Sys_User) principals.getPrimaryPrincipal();
         List<Sys_Role> roles = roleService.findRolesByUserId(user.getId());
-        for (Sys_Role role : roles) {
-            info.addRole(role.getRole());
-            List<Sys_Permission> permissions=permissionService.findPermsByRoleId(role.getId());
-            if (null!=permissions){
-                for (Sys_Permission permission : permissions) {
-                    info.addStringPermission(permission.getPermission());
+        if (null!=roles && roles.size()>0){
+            for (Sys_Role role : roles) {
+                info.addRole(role.getRole());
+                List<Sys_Permission> permissions=permissionService.findPermsByRoleId(role.getId());
+                if (null!=permissions){
+                    for (Sys_Permission permission : permissions) {
+                        info.addStringPermission(permission.getPermission());
+                    }
                 }
             }
         }

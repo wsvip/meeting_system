@@ -177,48 +177,46 @@ function validetorrecord(obj) {
                     }
                 }
             },
-            recordNo: {
-                message: 'The recordNo is not valid',
+            roomNameComfirm: {
                 validators: {
                     notEmpty: {
-                        message: '会议室编号不能为空'
-                    },
-                    regexp: {
-                        regexp: /^[a-zA-Z0-9]+$/,
-                        message: '会议室编号不能包含中文和特殊字符'
-                    }
-                },
-            },
-            principalComfirm: {
-                validators: {
-                    notEmpty: {
-                        message: '会议室负责人不能为空'
+                        message: '会议室不能为空'
                     }
                 }
             },
-            capacity: {
+            commissionerComfirm: {
+                validators: {
+                    notEmpty: {
+                        message: '会务专员不能为空'
+                    }
+                }
+            },
+            attendComfirm: {
                 //threshold: 11,//当邮箱超过6位时才发送ajax请求进行邮箱校验
                 validators: {
                     notEmpty: {
-                        message: '可容纳人数不能为空'
-                    },
-                    regexp: {
-                        regexp: /^[0-9]+$/,
-                        message: '可容纳人数需填写正整数'
+                        message: '参会人员不能为空'
                     }
                 }
             },
             startTime:{
                 validators: {
                     notEmpty: {
-                        message: '开始时间不能为空'
+                        message: '会议时长不能为空'
                     }
                 }
             },
             approverComfirm:{
                 validators: {
                     notEmpty: {
-                        message: '审批人不能为空'
+                        message: '主持人不能为空'
+                    }
+                }
+            },
+            content:{
+                validators: {
+                    notEmpty: {
+                        message: '会议内容不能为空'
                     }
                 }
             }
@@ -303,6 +301,7 @@ function selectRecordUser(obj,nameObj,objId,type) {
             pidInput.val(recordData.title);
             principalIdInput.val(recordData.id);
             nameInput.val(recordData.title);
+            pidInput.val(recordData.title).trigger('input');
         }
     });
 }
@@ -377,6 +376,7 @@ function selectApplyed(obj,nameObj,objId,type) {
             pidInput.val(recordData.title);
             principalIdInput.val(recordData.id);
             nameInput.val(recordData.title);
+            pidInput.val(recordData.title).trigger('input');
         }
     });
 }
@@ -390,5 +390,8 @@ layui.use('laydate',function () {
         ,type:'datetime'
         //,format: 'yyyy-MM-dd HH:mm:ss|yyyy-MM-dd HH:mm:ss'
         ,range: true
+        ,change:function (value) {
+            $("#_startTime").val(value).trigger('input');
+        }
     });
 });

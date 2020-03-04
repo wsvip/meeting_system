@@ -38,10 +38,10 @@ public class PendingController {
     @ResponseBody
     @SLog(operate = "查看待办事项列表")
     @RequiresPermissions("sys.pend")
-    public Object applyListData(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "applyCondition", required = false) String applyCondition) {
+    public Object applyListData(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "pendingCondition", required = false) String pendingCondition) {
         Sys_User user= (Sys_User) SecurityUtils.getSubject().getPrincipal();
         Page<Sys_apply> iPage = new Page<>(page, limit);
-        List<Sys_apply> applylist = applyService.pendingListByPage(iPage, applyCondition,user.getId());
+        List<Sys_apply> applylist = applyService.pendingListByPage(iPage, pendingCondition,user.getId());
         int count = applyService.count();
         return ResultUtil.layuiPageData(0, null, count, applylist);
     }

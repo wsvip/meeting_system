@@ -33,8 +33,8 @@
                 <div class="col-xs-12 form-group">
                     <label for="principal" class="col-xs-3 control-label">会议室负责人</label>
                     <div class="col-xs-9">
-                        <input type="text" class="form-control" id="principal" readonly  value="${roomData.principal}" placeholder="请选择会议室负责人">
-                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectUser($('#principal'),$('input[name=principal]'),$('#principalId'))">选择</button>
+                        <input type="text" class="form-control" id="principal" name="principalComfirm" readonly  value="${roomData.principal}" placeholder="请选择会议室负责人">
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectPrincipal($('#principal'),$('input[name=principal]'),$('#principalId'))">选择</button>
                         <input type="hidden" name="principal" value="${roomData.principal}">
                         <input type="hidden" id="principalId" name="principalId" value="${roomData.principalId}">
                     </div>

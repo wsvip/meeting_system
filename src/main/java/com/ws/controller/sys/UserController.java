@@ -94,6 +94,10 @@ public class UserController {
     @RequestMapping(value = "/delUserData",method = RequestMethod.POST)
     @ResponseBody
     public Object delUserData(String userId){
+        Sys_User user = userService.getById(userId);
+        if ("superadmin".equals(user.getUsername())){
+            return ResultUtil.error(1,"无法删除超级管理员");
+        }
         int delCount=userService.delUserData(userId);
         if (delCount>0){
             return ResultUtil.success(delCount,"删除成功");

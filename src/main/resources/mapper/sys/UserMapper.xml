@@ -10,7 +10,7 @@
         from sys_user
         <where>
             <if test="condition!=null">
-                username like '%${condition}%' or nickname like '%${condition}%'
+                CONCAT(username,nickname) like '%${condition}%'
             </if>
         </where>
     </select>
@@ -29,6 +29,7 @@
     </select>
     <select id="getUserPermissionMenus" resultType="com.ws.bean.Sys_Permission">
         SELECT
+            DISTINCT
             t4.NAME,
             t4.permission,
             t4.url
@@ -40,6 +41,7 @@
                 AND t1.userId = #{userId}
                 AND t4.pid = '0'
                 AND t4.disabled = 0
+                AND t2.disabled=0
         ORDER BY
             t4.id DESC
     </select>

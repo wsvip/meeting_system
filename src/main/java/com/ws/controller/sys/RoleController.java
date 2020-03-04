@@ -3,6 +3,7 @@ package com.ws.controller.sys;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.annotation.SLog;
+import com.ws.bean.Sys_Permission;
 import com.ws.bean.Sys_Role;
 import com.ws.bean.Sys_User;
 import com.ws.common.utils.ResultUtil;
@@ -129,6 +130,11 @@ public class RoleController {
     @ResponseBody
     @RequiresPermissions("sys.role.del")
     public Object delRole(String roleId){
+        Sys_Role role = roleService.getById(roleId);
+        String roleCode = role.getRole();
+        if ("sys.manager.role".equals(roleCode)){
+            return ResultUtil.error(1,"无法删除系统管理员角色");
+        }
         roleService.delRoleByRoleId(roleId);
         return ResultUtil.success(null,"删除成功");
     }

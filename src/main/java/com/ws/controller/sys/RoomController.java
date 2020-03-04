@@ -144,12 +144,24 @@ public class RoomController {
     public Object delRoomData(String roomId){
         boolean flag = roomService.removeById(roomId);
         //更新申请状态
-        boolean b=applyService.updateApplyStatus(roomId,5);
-        if (flag){
+        boolean _flag=applyService.updateApplyStatus(roomId,5);
+        if (flag&&_flag){
             return ResultUtil.success(flag,"删除成功");
         }else {
             return ResultUtil.error(1,"删除失败");
         }
 
+    }
+
+    @RequestMapping(value = "checkRoomStatus",method = RequestMethod.POST)
+    @ResponseBody
+    public Object checkRoomStatus(String roomId){
+        //检查会议室状态
+        boolean flag=roomService.checkRoomStatus(roomId);
+        if (flag) {
+            return ResultUtil.success(flag,"会议室空闲");
+        }else{
+            return ResultUtil.error(1,"会议室不空闲");
+        }
     }
 }

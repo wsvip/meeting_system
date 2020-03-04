@@ -34,9 +34,7 @@ layui.use('table', function () {
         , page: true
         , id: 'userLayerDataTable'
         , done: function (res, curr, count) {
-            console.log(res);
-            console.log(curr);
-            console.log(count);
+
         }
     });
 
@@ -45,7 +43,7 @@ layui.use('table', function () {
         var eventData = obj.data;
         var layEvent = obj.event;
         if (layEvent === 'del') {
-            layer.confirm('真的删除行么', function (index) {
+            layer.confirm('真的删除该用户么', function (index) {
                 //删除对应行（tr）的DOM结构，并更新缓存
                 //向服务端发送删除指令
                 layer.close(index);
@@ -56,7 +54,9 @@ layui.use('table', function () {
                     type: 'POST',
                     dataType: 'json',
                     success: function (data) {
-                        obj.del();
+                        if (data.code===0){
+                            obj.del();
+                        }
                         layer.msg(data.msg);
                     }
                 });

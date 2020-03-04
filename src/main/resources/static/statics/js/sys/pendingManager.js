@@ -55,9 +55,6 @@ layui.use('table', function () {
         , page: true
         , id: 'pendingLayerDataTable'
         , done: function (res, curr, count) {
-            console.log(res);
-            console.log(curr);
-            console.log(count);
         }
     });
 

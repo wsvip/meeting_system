@@ -15,4 +15,7 @@ public interface RoomService extends IService<Sys_room> {
      * @return List<Sys_room>
      */
     List<Sys_room> roomListByPage(Page<Sys_room> iPage, String roomCondition);
+
+    boolean checkRoomStatus(String roomId);
+
 }

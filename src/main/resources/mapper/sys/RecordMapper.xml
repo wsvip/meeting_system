@@ -10,7 +10,7 @@
         from sys_record
         <where>
             <if test="recordCondition!=null">
-                roomName like '%${recordCondition}%' or host like '%${recordCondition}%' or recordName like '%${recordCondition}%'  and
+                CONCAT(roomName,host,recordName)  like '%${recordCondition}%'  and
             </if>
             recorder=#{userId}
         </where>

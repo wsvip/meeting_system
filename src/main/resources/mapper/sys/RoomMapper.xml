@@ -20,7 +20,7 @@
         from sys_room
         <where>
             <if test="roomCondition!=null">
-                roomName like '%${roomCondition}%' or roomNo like '%${roomCondition}%' or principal like '%${roomCondition}%' or remark like '%${roomCondition}%'
+                CONCAT(roomName,roomNo,principal,remark) like '%${roomCondition}%'
             </if>
         </where>
     </select>
@@ -36,5 +36,13 @@
 
     <select id="getAssedUserData" parameterType="string" resultType="com.ws.bean.Sys_User">
         select id,username,nickname,disabled from sys_user where id in (select userId from sys_user_role where roleId =#{roleId})
+    </select>
+    <select id="checkRoomStatus" resultType="java.lang.Integer">
+        select
+            status
+        from sys_room
+        <where>
+            id=#{roomId}
+        </where>
     </select>
 </mapper>

@@ -44,7 +44,7 @@
                     <label for="approver" class="col-xs-2 control-label">审批人</label>
                     <div class="col-xs-10">
                         <input type="text" class="form-control"  id="approver" name="approverComfirm" readonly value="${applyData.approver}"   placeholder="请选择会议室审批人">
-                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectUser($('#approver'),$('input[name=approver]'),$('#approverId'))">选择</button>
+                        <button type="button" class="btn btn-primary selectPermBtn" onclick="selectApprover($('#approver'),$('input[name=approver]'),$('#approverId'))">选择</button>
                         <input type="hidden" name="approver" value="${applyData.approver}">
                         <input type="hidden" id="approverId" name="approverId" value="${applyData.approverId}">
                     </div>
@@ -56,7 +56,7 @@
         <div class="formBar">
             <div class="col-xs-4"></div>
             <div class="col-xs-4">
-                <a href="javascript:void(0)" class="btn btn-primary submitBtn" onclick="editApplyDo()">重新申请</a>
+                <a href="javascript:void(0)" class="btn btn-primary submitBtn" onclick="reApplyDo()">重新申请</a>
             </div>
             <!--<div class="col-xs-2">
                 <a href="javascript:void(0)" class="btn btn-primary" onclick="cancelForm()">取消</a>

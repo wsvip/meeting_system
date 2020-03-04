@@ -36,9 +36,7 @@ layui.use('table', function () {
         , page: true
         , id: 'roomLayerDataTable'
         , done: function (res, curr, count) {
-            console.log(res);
-            console.log(curr);
-            console.log(count);
+
         }
     });
 
@@ -270,7 +268,7 @@ function validetorRoom(obj) {
 /**
  * 选择负责人
  */
-function selectUser(obj,nameObj,objId) {
+function selectPrincipal(obj,nameObj,objId) {
     var roomData = {};
     var pidInput = obj;//$('#principal');
     var nameInput = nameObj;//$('input[name=principal]');
@@ -334,6 +332,7 @@ function selectUser(obj,nameObj,objId) {
             pidInput.val(roomData.title);
             principalIdInput.val(roomData.id);
             nameInput.val(roomData.title);
+            pidInput.val(roomData.title).trigger('input');
         }
     });
 }
@@ -349,5 +348,9 @@ layui.use('laydate',function () {
         ,range: true
         ,min: 0
         ,max: '2099-12-31 00:00:00'
+        ,change:function (value) {
+            $("#startTime").val(value).trigger('input');
+
+        }
     });
 });

@@ -3,8 +3,10 @@ layui.use('layer', function () {
     layer = layui.layer;
 });
 /*用户管理表格*/
-layui.use('table', function () {
+var util;
+layui.use(['table','util'], function () {
     var table = layui.table;
+    util = layui.util;
     table.render({
         elem: '#applyDataTable'
         , url: '/v1/api/sys/apply/applyListData'
@@ -111,23 +113,37 @@ layui.use('table', function () {
             }
 
         }
-        /*编辑申请信息*/
+        /*重新申请信息*/
         else if (layEvent === 'reApply') {
             if (eventData.status===1){
                 layer.msg('此申请已通过', {icon: 0});
-            }else if(eventData.status===3){
-                layer.msg('此申请已过期', {icon: 0});
+            }else if(eventData.status===5){
+                layer.msg('该会议室已被删除', {icon: 0});
             }else if(eventData.status===4){
                 layer.msg('此申请已取消', {icon: 0});
             }else{
-                layer.open({
-                    type: 2,
-                    title: '申请会议室',
-                    area: ['650px', '580px'],
-                    shadeClose: true,
-                    shade: [0.8, '#808283'],
-                    content: ['/v1/api/sys/apply/editApply?id=' + eventData.id, 'no'],
+
+                $.ajax({
+                    url: '/v1/api/sys/room/checkRoomStatus',
+                    data: {roomId:eventData.roomId},
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code===0){
+                            layer.open({
+                                type: 2,
+                                title: '重新申请会议室',
+                                area: ['650px', '580px'],
+                                shadeClose: true,
+                                shade: [0.8, '#808283'],
+                                content: ['/v1/api/sys/apply/editApply?id=' + eventData.id, 'no'],
+                            });
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    }
                 });
+
             }
 
         }
@@ -184,10 +200,25 @@ layui.use('table', function () {
 /**
  * 提交修改申请信息表单
  */
-function editApplyDo() {
+function reApplyDo() {
     var roomData = $("#editApplyForm");
     roomData.bootstrapValidator('validate');//提交验证
     if (roomData.data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
+        var formArr=$("#editApplyForm").serializeArray();
+        for (var i = 0; i < formArr.length; i++) {
+            if (formArr[i].name==='startTime'){
+                var startTimeValue=formArr[i].value;
+                var endTime=startTimeValue.split(" - ")[1];
+                var dateNow=util.toDateString(new Date(),'yyyy-MM-dd HH:mm:ss');
+                if (dateNow>endTime){
+                    layer.tips('使用结束时间应大于当前时间', '#startTime', {
+                        tips: [3, '#FF5722']
+                    });
+                    return;
+                }
+            }
+
+        }
         $.ajax({
             url: '/v1/api/sys/apply/editApplyDo',
             type: 'post',
@@ -273,9 +304,9 @@ function validetorApply(obj) {
 }
 
 /**
- * 选择负责人
+ * 选择审批人
  */
-function selectUser(obj, nameObj, objId) {
+function selectApprover(obj, nameObj, objId) {
     var roomData = {};
     var pidInput = obj;//$('#principal');
     var nameInput = nameObj;//$('input[name=principal]');
@@ -339,6 +370,7 @@ function selectUser(obj, nameObj, objId) {
             pidInput.val(roomData.title);
             principalIdInput.val(roomData.id);
             nameInput.val(roomData.title);
+            pidInput.val(roomData.title).trigger('input');
         }
     });
 }

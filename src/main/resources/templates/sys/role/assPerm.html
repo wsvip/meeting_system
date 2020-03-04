@@ -97,8 +97,6 @@
         //保存勾选的权限
         $("#saveAssPerm").on('click', function () {
             var permData = feddbackTree.getCheckbarNodesParam('assPermTree');
-            layer.msg(JSON.stringify(permData));
-            console.log(permData);
             getIds(permData);
             $.ajax({
                 url:'/v1/api/sys/role/saveAssPerm',
@@ -107,7 +105,6 @@
                 type: 'post',
                 traditional:true,
                 success:function (data) {
-                    layer.msg(data.msg);
                     if (data.code==0){
                         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                         //关闭layer弹窗之后重新加载layui表格

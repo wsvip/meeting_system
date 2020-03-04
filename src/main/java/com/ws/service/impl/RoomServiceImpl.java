@@ -20,4 +20,13 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Sys_room> implement
         List<Sys_room> roomList= roomMapper.roomListByPage(iPage,roomCondition);
         return roomList;
     }
+
+    @Override
+    public boolean checkRoomStatus(String roomId) {
+        int status=roomMapper.checkRoomStatus(roomId);
+        if (status == 2) {
+            return true;
+        }
+        return false;
+    }
 }

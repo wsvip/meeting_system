@@ -21,4 +21,5 @@ public interface RoomMapper extends BaseMapper<Sys_room> {
 
     void updateLessThanNowRoom(@Param("roomIds") Object[] roomIds);
 
+    Integer checkRoomStatus(String roomId);
 }
