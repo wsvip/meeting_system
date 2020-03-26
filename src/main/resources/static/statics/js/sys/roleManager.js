@@ -1,3 +1,6 @@
+/**
+ * 角色管理
+ */
 var layer;
 layui.use('layer',function () {
     layer= layui.layer;

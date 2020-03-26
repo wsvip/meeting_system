@@ -13,14 +13,40 @@ import java.util.List;
 @Repository
 //public interface UserMapper extends JpaRepository<Sys_User, String> {
 public interface UserMapper extends BaseMapper<Sys_User> {
+    /**
+     * 分页获取用户列表
+     * @param iPage 分页
+     * @param condition 关键字
+     * @return  List<Sys_User>
+     */
     List<Sys_User> userListByPage(@Param("iPage") Page<Sys_User> iPage,@Param("condition") String condition);
 
+    /**
+     * 根据用户id级联删除角色-用户管理表数据
+     * @param userId 用户id
+     * @return int
+     */
     int delUserAndUserRole(String userId);
 
+    /**
+     * 根绝角色id获取未分配用户集合
+     * @param roleId 角色id
+     * @return List<Sys_User>
+     */
     List<Sys_User> getAssUserData(String roleId);
 
+    /**
+     * 根据角色id获取已分配用户集合
+     * @param roleId 角色id
+     * @return List<Sys_User>
+     */
     List<Sys_User> getAssedUserData(String roleId);
 
+    /**
+     * 获取用户权限菜单集合
+     * @param userId 用户id
+     * @return List<Sys_Permission>
+     */
     List<Sys_Permission> getUserPermissionMenus(String userId);
 
     //void selectOne(QueryWrapper<Object> );

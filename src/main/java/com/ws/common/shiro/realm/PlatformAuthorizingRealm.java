@@ -81,6 +81,9 @@ public class PlatformAuthorizingRealm extends AuthorizingRealm {
         return null;
     }
 
+    /**
+     * 清楚缓存中的角色权限信息
+     */
     public  void clearAuthz(){
         clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
     }

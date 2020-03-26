@@ -32,6 +32,13 @@ public interface ApplyService extends IService<Sys_apply> {
      */
     boolean updateApplyStatus(String roomId, int status);
 
+    /**
+     * 分页获取当前用户待办事项数据
+     * @param iPage 分页信息
+     * @param applyCondition 关键字
+     * @param id  当前用户id
+     * @return List<Sys_apply>
+     */
     List<Sys_apply> pendingListByPage(Page<Sys_apply> iPage, String applyCondition, String id);
 
     /**
@@ -47,5 +54,8 @@ public interface ApplyService extends IService<Sys_apply> {
      */
     void updateLessThanNowApplying();
 
+    /**
+     * 设置结束时间小于当前时间的已通过审批申请 状态为结束使用
+     */
     void updateLessThanNowApplyed();
 }

@@ -1,3 +1,6 @@
+/**
+ * 会议记录
+ */
 var layer;
 layui.use('layer', function () {
     layer = layui.layer;

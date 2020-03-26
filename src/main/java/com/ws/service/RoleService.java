@@ -32,15 +32,15 @@ public interface RoleService extends IService<Sys_Role> {
 
     /**
      * 分配用户到角色中
-     * @param ids
-     * @return
+     * @param ids 用户id集合
+     * @return int
      */
     int saveAssUser(String[] ids,String roleId);
 
     /**
      * 获取权限树形结构，并以角色id作为回显选中标识
      * @param roleId 角色id
-     * @return
+     * @return JSONArray
      */
     JSONArray getAssPermTree(String roleId);
 
@@ -48,7 +48,7 @@ public interface RoleService extends IService<Sys_Role> {
      * 保存分配的权限
      * @param ids 权限id数组集合
      * @param roleId 角色id
-     * @return
+     * @return int
      */
     int saveAssPerm(String[] ids, String roleId);
 

@@ -1,3 +1,6 @@
+/**
+ * 待办事项
+ */
 var layer;
 layui.use('layer', function () {
     layer = layui.layer;
@@ -180,6 +183,11 @@ layui.use('table', function () {
     });
 });
 
+/**
+ * 审批-通过
+ * @param applyId 申请单id
+ * @param roomId 会议室id
+ */
 function accApply(applyId, roomId) {
     $.ajax({
         url: '/v1/api/sys/pending/approvalApply',
@@ -199,6 +207,11 @@ function accApply(applyId, roomId) {
     });
 }
 
+/**
+ * 审批-不通过
+ * @param applyId 申请单id
+ * @param roomId 会议室id
+ */
 function failApply(applyId, roomId) {
     $.ajax({
         url: '/v1/api/sys/pending/approvalApply',
