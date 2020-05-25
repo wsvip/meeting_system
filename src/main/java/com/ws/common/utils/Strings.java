@@ -12,12 +12,7 @@ import java.util.regex.Pattern;
 /**
  * 字符串操作的帮助函数
  *
- * @author zozoh(zozohtnt@gmail.com)
- * @author wendal(wendal1985@gmail.com)
- * @author mawm(ming300@gmail.com)
- * @author bonyfish(mc02cxj@gmail.com)
- * @author pw(pangwu86@gmail.com)
- * @author kerbores(kerbores@gmail.com)
+ * @author ws
  */
 public class Strings {
 
